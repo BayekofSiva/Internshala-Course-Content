@@ -377,6 +377,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 a.click();
                 showToast('Records exported successfully!');
         }
+
         
         
 });

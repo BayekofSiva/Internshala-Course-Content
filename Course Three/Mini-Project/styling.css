@@ -52,6 +52,32 @@
             border-radius: 8px;
             backdrop-filter: blur(5px);
         }
+
+        /* CSV Link Styles */
+        .csv-link {
+                color: rgb(236, 207, 255);                
+                cursor: pointer;
+                transition: all 0.3s ease;
+                position: relative;
+        }
+
+        .csv-link:hover {
+                color: #6e8efb;
+                text-decoration: none;                
+        }
+
+        /* .csv-link::after {
+                content: '↓';
+                position: absolute;
+                right: -15px;
+                opacity: 0;
+                transition: all 0.3s ease;
+        } */
+
+        /* .csv-link:hover::after {
+                opacity: 1;
+                transform: translateY(3px);
+        } */
         
         @keyframes fadeInDown {
             from {
