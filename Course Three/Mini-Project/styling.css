@@ -8,6 +8,8 @@
             position: relative;
             overflow: hidden;
         }
+
+       
         
         header::before {
             content: '';
@@ -87,15 +89,15 @@
 /* Form Styles */
 
 .registration-form {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: rgb(244, 231, 255);
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    transform: translateY(20px);
-    opacity: 0;
-    animation: formEntrance 0.6s cubic-bezier(0.23, 1, 0.32, 1) 0.3s forwards;
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: rgb(244, 231, 255);
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        transform: translateY(20px);
+        opacity: 0;
+        animation: formEntrance 0.6s cubic-bezier(0.23, 1, 0.32, 1) 0.3s forwards;
 }
 
 @keyframes formEntrance {
@@ -106,12 +108,12 @@
 }
 
 .form-title {
-    text-align: center;
-    color: #560184;
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-    position: relative;
-    padding-bottom: 0.5rem;
+        text-align: center;
+        color: #560184;
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+        position: relative;
+        padding-bottom: 0.5rem;
 }
 
 .form-title::after {
@@ -250,13 +252,39 @@
     gap: 1rem;
 }
 
-.section-header h2 {
+.section-header h2 {        
     color: #350063;
     font-size: 1.8rem;
     margin: 0;
 }
 
+.section-header h2:hover + .header-description,
+.header-description:hover {
+    opacity: 1;
+    transform: translateY(5px);
+    transition: all 0.3s ease;
+}
+
+.header-description {
+    /* position: relative; */
+    top: 100%;
+    left: -100;
+    width: 250px;
+    background: rgba(110, 142, 251, 0.9);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.9s ease;
+    pointer-events: none;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
 .search-container {
+        left: -75px;
     position: relative;
     min-width: 250px;
 }
@@ -742,8 +770,8 @@
 
 .github-btn:hover {
     background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
 
 .github-icon {
@@ -854,17 +882,19 @@
 
 .export-btn:hover {
     background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(-10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    transition: all 0.7s ease;
 }
 
 .download-icon {
     width: 20px;
     height: 20px;
     fill: white;
-    transition: all 0.3s ease;
+    transition: all 0.7s ease;
 }
 
 .export-btn:hover .download-icon {
-    transform: translateY(2px);
+    transform: translateY(5px);
+        transform: rotate(360deg) scale(1.2);
 }

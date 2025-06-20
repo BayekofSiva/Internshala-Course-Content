@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Update copyright year
-        document.getElementById('copyright').innerHTML = `&copy; ${new Date().getFullYear()} Student Registration System. All rights reserved.`;
+        document.getElementById('copyright').innerHTML = `&copy; ${new Date().getFullYear()} Pratik Paigankar. All Rights Reserved.`;
 
         document.getElementById('exportBtn').addEventListener('click', exportToCSV);
         function exportToCSV()
