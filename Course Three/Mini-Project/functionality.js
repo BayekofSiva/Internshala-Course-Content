@@ -357,4 +357,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update copyright year
         document.getElementById('copyright').innerHTML = `&copy; ${new Date().getFullYear()} Student Registration System. All rights reserved.`;
+
+        document.getElementById('exportBtn').addEventListener('click', exportToCSV);
+        function exportToCSV()
+        {
+                if (students.length === 0)
+                {
+                        showToast('No records to export!!', 'error');
+                        return;
+                }
+
+                const headers = "Name, Student ID, Email, Contact\n";
+                const csv = students.map(s => `${s.name}, ${s.id}, ${s.email}, ${s.contact}`).join('\n');
+                const blob = new Blob([headers + csv], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'students.csv';
+                a.click();
+                showToast('Records exported successfully!');
+        }
+        
+        
 });
+
+
+// End of DOMContentLoaded
+// End of script
