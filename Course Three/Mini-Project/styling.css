@@ -804,7 +804,9 @@
 }
 
 .contact-item:hover .contact-icon {
-    transform: scale(1.2);
+    transform: scale(1.4);
+    transform: rotate(360deg);
+    transition: all 0.9s ease;
     opacity: 1;
 }
 

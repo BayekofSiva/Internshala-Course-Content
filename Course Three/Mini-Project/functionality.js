@@ -352,6 +352,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // GitHub button functionality
         document.getElementById('githubBtn').addEventListener('click', function()
         {
-                window.open('https://github.com/yourusername/student-registration-system', '_blank');
+                window.open('https://github.com/BayekofSiva/Internshala-Course-Content', '_blank');
         });
+
+        // Update copyright year
+        document.getElementById('copyright').innerHTML = `&copy; ${new Date().getFullYear()} Student Registration System. All rights reserved.`;
 });
