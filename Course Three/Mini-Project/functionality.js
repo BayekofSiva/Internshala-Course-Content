@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const recordsList = document.getElementById('recordsList');
     const searchInput = document.getElementById('searchInput');
     const submitBtn = document.getElementById('submitBtn');
+    const addNewRowBtn = document.getElementById('addNewRow');
     
     // Form input fields
     const nameInput = document.getElementById('studentName');
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Student Data
     let students = JSON.parse(localStorage.getItem('students')) || [];
     let currentEditIndex = -1;
+    let isAddingNewRow = false;
     
     // Initialize the app
     renderStudentList(students);
@@ -27,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event Listeners
     studentForm.addEventListener('submit', handleFormSubmit);
     searchInput.addEventListener('input', handleSearch);
+    addNewRowBtn.addEventListener('click', startAddNewRow);
     
     // Input validation listeners
     nameInput.addEventListener('input', () => validateInput(nameInput, validateName(nameInput.value), nameError));
@@ -98,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
         studentsToRender.forEach((student, index) => {
             const row = document.createElement('div');
             row.className = 'record-row';
+            row.setAttribute('data-index', index);
             row.innerHTML = `
                 <div class="record-cell">${student.name}</div>
                 <div class="record-cell">${student.id}</div>
@@ -113,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add event listeners to action buttons
         document.querySelectorAll('.edit-btn').forEach(btn => {
-            btn.addEventListener('click', handleEdit);
+            btn.addEventListener('click', startEditRow);
         });
         
         document.querySelectorAll('.delete-btn').forEach(btn => {
@@ -121,27 +125,147 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Handle Edit
-    function handleEdit(e) {
+    // Start editing a row
+    function startEditRow(e) {
+        e.stopPropagation();
         const index = parseInt(e.target.getAttribute('data-index'));
+        const row = e.target.closest('.record-row');
         const student = students[index];
         
-        // Fill form with student data
-        nameInput.value = student.name;
-        idInput.value = student.id;
-        emailInput.value = student.email;
-        contactInput.value = student.contact;
+        // Convert row to editable mode
+        row.classList.add('editing');
+        row.innerHTML = `
+            <div class="editable-cell">
+                <input type="text" value="${student.name}" class="edit-name">
+            </div>
+            <div class="editable-cell">
+                <input type="text" value="${student.id}" class="edit-id">
+            </div>
+            <div class="editable-cell">
+                <input type="email" value="${student.email}" class="edit-email">
+            </div>
+            <div class="editable-cell">
+                <input type="tel" value="${student.contact}" class="edit-contact">
+            </div>
+            <div class="record-cell action-buttons">
+                <button class="save-btn" data-index="${index}">Save</button>
+                <button class="cancel-btn" data-index="${index}">Cancel</button>
+            </div>
+        `;
         
-        // Set edit mode
-        currentEditIndex = index;
-        submitBtn.textContent = 'Update Student';
+        // Add event listeners to save/cancel buttons
+        row.querySelector('.save-btn').addEventListener('click', saveEditedRow);
+        row.querySelector('.cancel-btn').addEventListener('click', cancelEditRow);
+    }
+    
+    // Save edited row
+    function saveEditedRow(e) {
+        const index = parseInt(e.target.getAttribute('data-index'));
+        const row = e.target.closest('.record-row');
         
-        // Scroll to form
-        document.querySelector('.registration-form').scrollIntoView({ behavior: 'smooth' });
+        // Get edited values
+        const name = row.querySelector('.edit-name').value.trim();
+        const id = row.querySelector('.edit-id').value.trim();
+        const email = row.querySelector('.edit-email').value.trim();
+        const contact = row.querySelector('.edit-contact').value.trim();
+        
+        // Validate inputs
+        if (!validateName(name) || !validateId(id) || !validateEmail(email) || !validateContact(contact)) {
+            showToast('Please enter valid information', 'error');
+            return;
+        }
+        
+        // Check for duplicate ID (except current record)
+        if (students.some((s, i) => s.id === id && i !== index)) {
+            showToast('Student ID already exists!', 'error');
+            return;
+        }
+        
+        // Update student data
+        students[index] = { name, id, email, contact };
+        saveToLocalStorage();
+        renderStudentList(students);
+        showToast('Student updated successfully!');
+    }
+    
+    // Cancel editing
+    function cancelEditRow(e) {
+        renderStudentList(students);
+    }
+    
+    // Start adding new row
+    function startAddNewRow() {
+        if (isAddingNewRow) return;
+        
+        isAddingNewRow = true;
+        const emptyRow = document.createElement('div');
+        emptyRow.className = 'record-row editing';
+        emptyRow.innerHTML = `
+            <div class="editable-cell">
+                <input type="text" placeholder="Name" class="edit-name">
+            </div>
+            <div class="editable-cell">
+                <input type="text" placeholder="ID" class="edit-id">
+            </div>
+            <div class="editable-cell">
+                <input type="email" placeholder="Email" class="edit-email">
+            </div>
+            <div class="editable-cell">
+                <input type="tel" placeholder="Contact" class="edit-contact">
+            </div>
+            <div class="record-cell action-buttons">
+                <button class="save-btn" id="saveNewRow">Save</button>
+                <button class="cancel-btn" id="cancelNewRow">Cancel</button>
+            </div>
+        `;
+        
+        recordsList.prepend(emptyRow);
+        emptyRow.scrollIntoView({ behavior: 'smooth' });
+        
+        // Add event listeners
+        document.getElementById('saveNewRow').addEventListener('click', saveNewRow);
+        document.getElementById('cancelNewRow').addEventListener('click', cancelNewRow);
+    }
+    
+    // Save new row
+    function saveNewRow() {
+        const row = document.querySelector('.record-row.editing');
+        
+        // Get values
+        const name = row.querySelector('.edit-name').value.trim();
+        const id = row.querySelector('.edit-id').value.trim();
+        const email = row.querySelector('.edit-email').value.trim();
+        const contact = row.querySelector('.edit-contact').value.trim();
+        
+        // Validate inputs
+        if (!validateName(name) || !validateId(id) || !validateEmail(email) || !validateContact(contact)) {
+            showToast('Please enter valid information', 'error');
+            return;
+        }
+        
+        // Check for duplicate ID
+        if (students.some(s => s.id === id)) {
+            showToast('Student ID already exists!', 'error');
+            return;
+        }
+        
+        // Add new student
+        students.unshift({ name, id, email, contact });
+        saveToLocalStorage();
+        isAddingNewRow = false;
+        renderStudentList(students);
+        showToast('Student added successfully!');
+    }
+    
+    // Cancel new row
+    function cancelNewRow() {
+        isAddingNewRow = false;
+        renderStudentList(students);
     }
     
     // Handle Delete
     function handleDelete(e) {
+        e.stopPropagation();
         const index = parseInt(e.target.getAttribute('data-index'));
         const studentName = students[index].name;
         
@@ -150,7 +274,7 @@ document.addEventListener('DOMContentLoaded', function() {
             students.splice(index, 1);
             saveToLocalStorage();
             renderStudentList(students);
-            showToast('Student record deleted!');
+            showToast('Student record deleted');
         }
     }
     
