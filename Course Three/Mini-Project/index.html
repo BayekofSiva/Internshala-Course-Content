@@ -18,5 +18,40 @@
                                 </p>
                         </div>
                 </header>
+
+                <section class="registration-form">
+                        <h2 class="form-title">Register New Student</h2>
+                        <form id="studentForm" class="form-grid">
+                                <div class="input-group">
+                                        <label for="studentName">Student Name:</label>
+                                        <input type="text" id="studentName" placeholder="Enter Full Name" required>
+                                        <span class="focus-border"></span>
+                                        <span class="error-message" id="nameError">Please enter a valid name [Letters Only]</span>
+                                </div>
+
+                                <div class="input-group">
+                                        <label for="studentID">Student ID:</label>
+                                        <input type="text" id="studentID" placeholder="Enter Student ID" required>
+                                        <span class="focus-border"></span>
+                                        <span class="error-message" id="idError">Please enter a valid ID [Numbers Only]</span>
+                                </div>
+
+                                <div class="input-group">
+                                        <label for="studentEmail">Email:</label>
+                                        <input type="email" id="studentEmail" placeholder="Enter Email Address" required>
+                                        <span class="focus-border"></span>
+                                        <span class="error-message" id="emailError">Please enter a valid email address [Include @]</span>
+                                </div>
+
+                                <div class="input-group">
+                                        <label for="studentContact">Contact Number:</label>
+                                        <input type="tel" id="studentContact" placeholder="Enter Contact Number" required>
+                                        <span class="focus-border"></span>
+                                        <span class="error-message" id="error-message">Please enter a valid contact number [10 digits]</span>
+                                </div>
+
+                                <button type="submit" class="submit-btn">Register Student</button>
+                        </form>
+                </section>
         </body>
 </html>
