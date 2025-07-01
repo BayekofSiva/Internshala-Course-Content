@@ -16,9 +16,15 @@ let recentCities = JSON.parse(localStorage.getItem('recentCities')) || [];
 
 // Fetch weather data
 async function fetchWeatherData(city) {
+    
     try {
         const response = await fetch(`${BASE_URL}/weather?q=${encodeURIComponent(city)}&units=metric&appid=${API_KEY}`);
         
+        if(!API_KEY || API_KEY.includes('YOUR_API_KEY')) {
+      console.warn("Using mock data - API key not active yet");
+      return getMockWeather(city);
+      }
+
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(
@@ -37,9 +43,55 @@ async function fetchWeatherData(city) {
             forecast: await forecastResponse.json()
         };
     } catch (error) {
+        console.error("Falling back to mock data due to error:", error);
+        return getMockWeather(city);
         console.error('API Error:', error);
         throw new Error(`Weather data unavailable. ${error.message}`);
     }
+}
+
+// Temporary mock data generator
+function getMockWeather(city) {
+  const mockCities = {
+    "Delhi": {
+      coord: { lat: 28.61, lon: 77.23 },
+      weather: [{ id: 800, main: "Clear", description: "clear sky", icon: "01d" }],
+      main: {
+        temp: 32,
+        feels_like: 34,
+        pressure: 1012,
+        humidity: 42
+      },
+      visibility: 5000,
+      wind: { speed: 3.1 },
+      sys: { 
+        country: "IN",
+        sunrise: Math.floor(Date.now()/1000) - 21600, // 6 hours ago
+        sunset: Math.floor(Date.now()/1000) + 21600  // 6 hours from now
+      },
+      name: "Delhi"
+    }
+  };
+  
+  return {
+    current: mockCities[city] || mockCities["Delhi"],
+    forecast: {
+      list: Array(5).fill().map((_,i) => ({
+        dt: Date.now()/1000 + (86400 * i),
+        main: {
+          temp: 30 + Math.random() * 5,
+          feels_like: 32 + Math.random() * 5,
+          humidity: 40 + Math.random() * 30,
+          pressure: 1010 + Math.random() * 10
+        },
+        weather: [{
+          icon: ["01d","02d","03d","04d","09d","10d","11d","13d"][Math.floor(Math.random()*8)],
+          description: ["clear","cloudy","rainy"][Math.floor(Math.random()*3)]
+        }],
+        wind: { speed: (1 + Math.random() * 5).toFixed(1) }
+      }))
+    }
+  };
 }
 
 function displayWeatherData(data) {
@@ -125,7 +177,7 @@ async function searchWeather() {
         showError(error.message);
         console.error('Search error:', error);
     }
-
+}
 
 // Network error detection
 function checkNetworkConnection() {
@@ -390,18 +442,6 @@ window.searchCity = function(city) {
     searchWeather();
 };
 
-// Search weather by city
-async function searchWeather() {
-    const city = cityInput.value.trim();
-    if (!city) return;
-    
-    try {
-        const weatherData = await fetchWeatherData(city);
-        displayWeatherData(weatherData);
-    } catch (error) {
-        alert('Error: Could not find weather data for this location. Please try another city.');
-    }
-}
 
 // Get weather by current location
 function getCurrentLocationWeather() {
@@ -438,4 +478,9 @@ cityInput.addEventListener('blur', () => {
 });
 
 // Initialize recent searches dropdown
-updateRecentSearchesDropdown();}
+updateRecentSearchesDropdown();
+
+// Add this temporary code to script.js to verify loading
+console.log("Script loaded successfully");
+console.log("Tailwind loaded:", window.tailwind !== undefined);
+console.log("Font Awesome loaded:", window.FontAwesome !== undefined);
