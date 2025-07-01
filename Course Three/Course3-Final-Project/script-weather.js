@@ -1,6 +1,6 @@
 let useCelsius = true;
 // API Configuration
-const API_KEY = 'ab8725384e84705d0057a0cfe9252707'; // Openweather Actual API Key
+const API_KEY = 'ab8725384e84705d0057a0cfe9252707'; // Openweather Actual API Key, may take time to work activate
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
 
 // DOM Elements
@@ -17,34 +17,31 @@ let recentCities = JSON.parse(localStorage.getItem('recentCities')) || [];
 // Fetch weather data
 async function fetchWeatherData(city) {
     try {
-        // First try with country code
-        let response = await fetch(`${BASE_URL}/weather?q=${city},IN&units=metric&appid=${API_KEY}`);
-        
-        // If fails, try without country code
-        if (!response.ok) {
-            response = await fetch(`${BASE_URL}/weather?q=${city}&units=metric&appid=${API_KEY}`);
-        }
+        const response = await fetch(`${BASE_URL}/weather?q=${encodeURIComponent(city)}&units=metric&appid=${API_KEY}`);
         
         if (!response.ok) {
             const errorData = await response.json();
-            throw new Error(errorData.message || 'City not found');
+            throw new Error(
+                errorData.message || 
+                `API Error: ${response.status} - ${response.statusText}`
+            );
         }
         
         const currentData = await response.json();
-        const forecastResponse = await fetch(`${BASE_URL}/forecast?q=${currentData.name},${currentData.sys.country}&units=metric&appid=${API_KEY}`);
+        const forecastResponse = await fetch(`${BASE_URL}/forecast?lat=${currentData.coord.lat}&lon=${currentData.coord.lon}&units=metric&appid=${API_KEY}`);
+        
+        if (!forecastResponse.ok) throw new Error('Failed to load forecast data');
         
         return {
             current: currentData,
             forecast: await forecastResponse.json()
         };
     } catch (error) {
-        console.error('Fetch error:', error);
-        throw error;
+        console.error('API Error:', error);
+        throw new Error(`Weather data unavailable. ${error.message}`);
     }
 }
 
-// Display weather data
-// Updated displayWeatherData function
 function displayWeatherData(data) {
     const { current, forecast } = data;
     
@@ -90,14 +87,12 @@ function displayWeatherData(data) {
     forecastContainer.classList.remove('hidden');
 }
 
-// Helper function to get country flag emoji
 function getCountryFlag(countryCode) {
     return countryCode 
         ? String.fromCodePoint(...[...countryCode.toUpperCase()].map(c => 127397 + c.charCodeAt()))
         : '';
 }
 
-// Helper function to get daily forecast (one per day)
 function filterDailyForecast(forecastList) {
     const dailyForecasts = [];
     const dates = new Set();
@@ -113,35 +108,37 @@ function filterDailyForecast(forecastList) {
     return dailyForecasts;
 }
 
-// Enhanced search functionality
 async function searchWeather() {
-    const city = cityInput.value.trim();
-    
-    // Validation
-    if (!city) {
-        showError("Please enter a city name");
-        return;
-    }
-    
-    // Show loading state
-    searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Searching';
-    searchBtn.disabled = true;
-    
     try {
-        const weatherData = await fetchWeatherData(city);
-        displayWeatherData(weatherData);
-        hideError();
-        addToRecentSearches(city);
+        const city = cityInput.value.trim();
+        if (!city) throw new Error('Please enter a city name');
+        
+        const cachedData = checkNetworkConnection();
+        if (cachedData) {
+            displayWeatherData(cachedData);
+            showError('Offline mode: Showing cached data', 'warning');
+            return;
+        }
+        
+        // ... rest of your search logic ...
     } catch (error) {
-        showError("Could not find weather data for this location. Please try another city.");
+        showError(error.message);
         console.error('Search error:', error);
-    } finally {
-        searchBtn.innerHTML = '<i class="fas fa-search mr-2"></i> Search';
-        searchBtn.disabled = false;
     }
+
+
+// Network error detection
+function checkNetworkConnection() {
+    if (!navigator.onLine) {
+        showError('No internet connection. Using last available data.');
+        const lastData = sessionStorage.getItem('lastWeatherData');
+        if (lastData) return JSON.parse(lastData);
+        throw new Error('No cached data available');
+    }
+    return null;
 }
 
-// Enhanced current location function
+// Get weather by current location
 function getCurrentLocationWeather() {
     currentLocationBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Locating';
     currentLocationBtn.disabled = true;
@@ -186,7 +183,7 @@ function getCurrentLocationWeather() {
     }
 }
 
-// Enhanced recent searches dropdown
+// Recent searches dropdown
 function updateRecentSearchesDropdown() {
     if (recentCities.length > 0) {
         recentSearches.innerHTML = recentCities.map(city => `
@@ -212,11 +209,23 @@ function removeRecentCity(city, event) {
 }
 
 // Error handling functions
-function showError(message) {
+function showError(message, type = 'error') {
+    const colors = {
+        error: 'bg-red-900/80 border-red-700',
+        warning: 'bg-amber-900/80 border-amber-700',
+        info: 'bg-blue-900/80 border-blue-700'
+    };
+    
     errorMessage.innerHTML = `
-        <div class="flex items-start">
-            <i class="fas fa-exclamation-triangle mt-1 mr-2"></i>
-            <span>${message}.<br>Try: "Delhi,IN" or "New Delhi"</span>
+        <div class="p-3 rounded-lg border ${colors[type]} flex items-start">
+            <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle'} mt-1 mr-3"></i>
+            <div>
+                <strong class="font-semibold">${type.toUpperCase()}:</strong>
+                <span class="ml-1">${message}</span>
+            </div>
+            <button onclick="this.parentElement.classList.add('hidden')" class="ml-auto text-sm">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     `;
     errorMessage.classList.remove('hidden');
@@ -340,6 +349,11 @@ cityInput.addEventListener('keydown', (e) => {
     }
 });
 
+window.addEventListener('error', (event) => {
+    console.error('Global error:', event.error);
+    showError('An unexpected error occurred. Please refresh the page.');
+});
+
 // Expose functions to global scope
 window.searchCity = function(city) {
     cityInput.value = city;
@@ -424,4 +438,4 @@ cityInput.addEventListener('blur', () => {
 });
 
 // Initialize recent searches dropdown
-updateRecentSearchesDropdown();
+updateRecentSearchesDropdown();}
