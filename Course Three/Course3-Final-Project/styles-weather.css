@@ -37,3 +37,33 @@ body {
         padding: 1rem;
     }
 }
+
+/* Add these to your styles.css */
+.weather-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.2);
+}
+
+#weatherContainer {
+    background: linear-gradient(135deg, rgba(15,23,42,0.8) 0%, rgba(30,41,59,0.9) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #weatherContainer .grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    #weatherContainer .grid-cols-3 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    #weatherContainer .flex-col {
+        padding: 1rem;
+    }
+}

@@ -50,14 +50,78 @@
                                 </div>
                         </div>
                         
-                        <div id="weatherContainer" class="hidden bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl shadow-2xl p-6 mb-8">
-                                <!-- Current weather will be inserted here -->
+                        <div id="weatherContainer" class="hidden bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl shadow-2xl p-6 mb-8 border border-slate-700">
+                                <div class="flex flex-col md:flex-row items-center justify-between">
+                                        <div class="flex items-center mb-4 md:mb-0">
+                                                <div class="relative">
+                                                        <img id="weatherIcon" class="weather-icon-lg" src="" alt="Weather Icon">
+                                                        <div class="absolute -bottom-2 -right-2 bg-primary rounded-full w-8 h-8 flex items-center justify-center">
+                                                                <span id="tempFeelsLike" class="text-xs font-bold"></span>
+                                                        </div>
+                                                </div>
+
+                                                <div class="ml-4">
+                                                        <h2 id="location" class="text-2xl font-bold flex items-center">
+                                                                <span></span>
+                                                                <span id="countryFlag" class="ml-2 text-xl"></span>
+                                                        </h2>
+                                                        <p id="currentDate" class="text-indigo-300"></p>
+                                                        <p id="weatherDesc" class="text-xl capitalize"></p>
+                                                </div>                                                        
+                                        </div>
+
+                                        <div class="grid grid-cols-3 gap-6 text-center">
+                                                <div class="bg-slate-700/50 rounded-lg p-3">
+                                                        <i class="fas fa-temperature-three-quarters text-primary mb-1"></i>
+                                                        <p id="currentTemp" class="text-3xl font-bold"></p>
+                                                        <p class="text-indigo-300 text-sm">Temperature</p>
+                                                </div>
+
+                                                <div class="bg-slate-700/50 rounded-lg p-3">
+                                                        <i class="fas fa-wind text-primary mb-1"></i>
+                                                        <p id="windSpeed" class="text-3xl font-bold"></p>
+                                                        <p class="text-indigo-300 text-sm">Wind</p>
+                                                </div>
+
+                                                <div class="bg-slate-700/50 rounded-lg p-3">
+                                                        <i class="fas fa-droplet text-primary mb-1"></i>
+                                                        <p id="humidity" class="text-3xl font-bold"></p>
+                                                        <p class="text-indigo-300 text-sm">Humidity</p>
+                                                </div>
+                                        </div>                                 
+                                </div>
+
+                                <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+                                        <div class="bg-slate-700/30 rounded-lg p-3">
+                                                <p class="text-indigo-300">Pressure</p>
+                                                <p id="pressure" class="text-xl font-semibold"></p>
+                                        </div>
+
+                                        <div class="bg-slate-700/30 rounded-lg p-3">
+                                                <p class="text-indigo-300">Visibility</p>
+                                                <p id="visibility" class="text-xl font-semibold"></p>
+                                        </div>
+
+                                        <div class="bg-slate-700/30 rounded-lg p-3">
+                                                <p class="text-indigo-300">Sunrise</p>
+                                                <p id="sunrise" class="text-xl font-semibold"></p>
+                                        </div>
+
+                                        <div class="bg-slate-700/30 rounded-lg p-3">
+                                                <p class="text-indigo-300">Sunset</p>
+                                                <p id="sunset" class="text-xl font-semibold"></p>
+                                        </div>
+                                </div>
                         </div>
                         
                         <div id="forecastContainer" class="hidden">
-                                <h2 class="text-2xl font-bold text-primary mb-4">5-Day Forecast</h2>
+                                <h2 class="text-2xl font-bold text-primary mb-4 flex items-center">
+                                        <i class="fas fa-calendar-days mr-2"></i>
+                                        <span>5-Day Forecast</span>
+                                </h2>
+
                                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                                        <!-- Forecast cards will be inserted here -->
+                                        <!-- Forecast cards will be inserted here via script-weather.js -->
                                 </div>
                         </div>
                 </div>

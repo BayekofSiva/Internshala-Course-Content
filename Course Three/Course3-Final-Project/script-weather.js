@@ -36,64 +36,55 @@ async function fetchWeatherData(city) {
 }
 
 // Display weather data
+// Updated displayWeatherData function
 function displayWeatherData(data) {
     const { current, forecast } = data;
     
-    // Update current weather
-    weatherContainer.innerHTML = `
-        <div class="flex flex-col md:flex-row items-center justify-between">
-            <div class="flex items-center mb-4 md:mb-0">
-                <img src="https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png" 
-                     alt="${current.weather[0].description}" 
-                     class="w-20 h-20">
-                <div class="ml-4">
-                    <h2 class="text-2xl font-bold">${current.name}, ${current.sys.country}</h2>
-                    <p class="text-indigo-300">${new Date().toLocaleDateString()}</p>
-                    <p class="text-xl capitalize">${current.weather[0].description}</p>
-                </div>
-            </div>
-            <div class="grid grid-cols-3 gap-6 text-center">
-                <div>
-                    <p class="text-3xl font-bold">${Math.round(current.main.temp)}°C</p>
-                    <p class="text-indigo-300">Temperature</p>
-                </div>
-                <div>
-                    <p class="text-3xl font-bold">${current.wind.speed} m/s</p>
-                    <p class="text-indigo-300">Wind</p>
-                </div>
-                <div>
-                    <p class="text-3xl font-bold">${current.main.humidity}%</p>
-                    <p class="text-indigo-300">Humidity</p>
-                </div>
-            </div>
-        </div>
-    `;
-    weatherContainer.classList.remove('hidden');
+    // Current weather
+    document.getElementById('weatherIcon').src = `https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`;
+    document.getElementById('location').innerHTML = `${current.name} <span id="countryFlag" class="ml-2 text-xl">${getCountryFlag(current.sys.country)}</span>`;
+    document.getElementById('currentDate').textContent = new Date(current.dt * 1000).toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+    });
+    document.getElementById('weatherDesc').textContent = current.weather[0].description;
+    document.getElementById('currentTemp').textContent = `${Math.round(current.main.temp)}°C`;
+    document.getElementById('tempFeelsLike').textContent = `${Math.round(current.main.feels_like)}°`;
+    document.getElementById('windSpeed').textContent = `${current.wind.speed} m/s`;
+    document.getElementById('humidity').textContent = `${current.main.humidity}%`;
+    document.getElementById('pressure').textContent = `${current.main.pressure} hPa`;
+    document.getElementById('visibility').textContent = `${(current.visibility / 1000).toFixed(1)} km`;
+    document.getElementById('sunrise').textContent = new Date(current.sys.sunrise * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    document.getElementById('sunset').textContent = new Date(current.sys.sunset * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     
-    // Update forecast
+    // Forecast
     const dailyForecasts = filterDailyForecast(forecast.list);
-    forecastContainer.innerHTML = `
-        <h2 class="text-2xl font-bold text-primary mb-4">5-Day Forecast</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            ${dailyForecasts.slice(0, 5).map(day => `
-                <div class="bg-slate-800 rounded-lg p-4 text-center hover:bg-slate-700 transition-colors">
-                    <p class="font-semibold mb-2">${new Date(day.dt * 1000).toLocaleDateString('en-US', { weekday: 'short' })}</p>
-                    <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}.png" 
-                         alt="${day.weather[0].description}" 
-                         class="mx-auto w-12 h-12">
-                    <p class="text-xl font-bold mt-2">${Math.round(day.main.temp)}°C</p>
-                    <div class="flex justify-around mt-3 text-sm">
-                        <span>${day.wind.speed} m/s</span>
-                        <span>${day.main.humidity}%</span>
-                    </div>
-                </div>
-            `).join('')}
+    const forecastHTML = dailyForecasts.slice(0, 5).map(day => `
+        <div class="weather-card bg-slate-800 rounded-xl p-4 text-center hover:bg-slate-700 transition-all hover:-translate-y-1">
+            <p class="font-semibold mb-2">${new Date(day.dt * 1000).toLocaleDateString('en-US', { weekday: 'short' })}</p>
+            <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png" 
+                 alt="${day.weather[0].description}" 
+                 class="mx-auto w-14 h-14">
+            <p class="text-xl font-bold mt-2">${Math.round(day.main.temp)}°C</p>
+            <div class="flex justify-around mt-3 text-sm text-indigo-300">
+                <span><i class="fas fa-wind mr-1"></i> ${day.wind.speed} m/s</span>
+                <span><i class="fas fa-droplet mr-1"></i> ${day.main.humidity}%</span>
+            </div>
         </div>
-    `;
-    forecastContainer.classList.remove('hidden');
+    `).join('');
     
-    // Add to recent searches
-    addToRecentSearches(current.name);
+    document.querySelector('#forecastContainer > div').innerHTML = forecastHTML;
+    weatherContainer.classList.remove('hidden');
+    forecastContainer.classList.remove('hidden');
+}
+
+// Helper function to get country flag emoji
+function getCountryFlag(countryCode) {
+    return countryCode 
+        ? String.fromCodePoint(...[...countryCode.toUpperCase()].map(c => 127397 + c.charCodeAt()))
+        : '';
 }
 
 // Helper function to get daily forecast (one per day)
