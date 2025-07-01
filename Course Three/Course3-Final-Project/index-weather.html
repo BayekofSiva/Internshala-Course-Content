@@ -120,14 +120,24 @@
                                 </div>
                         </div>
                         
+                        
                         <div id="forecastContainer" class="hidden">
-                                <h2 class="text-2xl font-bold text-primary mb-4 flex items-center">
-                                        <i class="fas fa-calendar-days mr-2"></i>
-                                        <span>5-Day Forecast</span>
+                                <h2 class="text-2xl font-bold text-primary mb-6 flex items-center justify-between">
+                                        <span class="flex items-center">
+                                                <i class="fas fa-calendar-week mr-3"></i>
+                                                5-Day Forecast
+                                        </span>
+                                        <span id="forecastLocation" class="text-sm font-normal text-indigo-300"></span>
                                 </h2>
-
-                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                                        <!-- Forecast cards will be inserted here via script-weather.js -->
+                        
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+                                        <!-- Forecast cards will be inserted here by JavaScript -->
+                                </div>
+                                
+                                <div class="mt-6 flex justify-end">
+                                        <button id="toggleUnitsBtn" class="text-sm text-indigo-400 hover:text-primary">
+                                                <i class="fas fa-exchange-alt mr-1"></i> Toggle °C/°F
+                                        </button>
                                 </div>
                         </div>
                 </div>

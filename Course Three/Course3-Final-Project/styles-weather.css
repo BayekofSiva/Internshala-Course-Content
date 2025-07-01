@@ -121,3 +121,40 @@ body {
         margin-right: 0;
     }
 }
+
+.forecast-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(125, 211, 252, 0.1);
+}
+
+.forecast-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.2);
+}
+
+#toggleUnitsBtn {
+    transition: all 0.2s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    #forecastContainer .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    #forecastContainer .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    #forecastContainer .grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .forecast-card {
+        padding: 1rem;
+    }
+}

@@ -1,3 +1,4 @@
+let useCelsius = true;
 // API Configuration
 const API_KEY = 'ab8725384e84705d0057a0cfe9252707'; // Openweather Actual API Key
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
@@ -65,6 +66,8 @@ function displayWeatherData(data) {
     document.getElementById('visibility').textContent = `${(current.visibility / 1000).toFixed(1)} km`;
     document.getElementById('sunrise').textContent = new Date(current.sys.sunrise * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     document.getElementById('sunset').textContent = new Date(current.sys.sunset * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    document.getElementById('forecastLocation').textContent = `for ${current.name}, ${current.sys.country}`;
+    displayForecast(forecast.list, useCelsius);
     
     // Forecast
     const dailyForecasts = filterDailyForecast(forecast.list);
@@ -221,6 +224,102 @@ function showError(message) {
 
 function hideError() {
     errorMessage.classList.add('hidden');
+}
+
+function displayForecast(forecastList, useCelsius = true) {
+    const dailyForecasts = groupForecastByDay(forecastList);
+    const forecastContainer = document.querySelector('#forecastContainer > div.grid');
+    
+    forecastContainer.innerHTML = dailyForecasts.slice(0, 5).map(day => {
+        const date = new Date(day.dt * 1000);
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+        const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        
+        const temp = useCelsius ? Math.round(day.main.temp) : Math.round((day.main.temp * 9/5) + 32);
+        const tempUnit = useCelsius ? '°C' : '°F';
+        
+        return `
+            <div class="forecast-card bg-slate-800 rounded-xl p-4 hover:bg-slate-700 transition-all hover:shadow-lg">
+                <div class="flex justify-between items-center mb-3">
+                    <p class="font-semibold">${dayName}</p>
+                    <p class="text-sm text-indigo-300">${dateStr}</p>
+                </div>
+                <div class="flex items-center justify-center mb-4">
+                    <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png" 
+                         alt="${day.weather[0].description}" 
+                         class="w-16 h-16">
+                </div>
+                <div class="grid grid-cols-2 gap-3 text-center">
+                    <div>
+                        <p class="text-2xl font-bold">${temp}${tempUnit}</p>
+                        <p class="text-xs text-indigo-300">Temperature</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-indigo-300">${day.weather[0].description}</p>
+                    </div>
+                </div>
+                <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
+                    <div class="bg-slate-700/50 rounded p-2">
+                        <i class="fas fa-wind mr-1"></i> ${day.wind.speed} m/s
+                    </div>
+                    <div class="bg-slate-700/50 rounded p-2">
+                        <i class="fas fa-droplet mr-1"></i> ${day.main.humidity}%
+                    </div>
+                    <div class="bg-slate-700/50 rounded p-2">
+                        <i class="fas fa-temperature-low mr-1"></i> ${useCelsius ? Math.round(day.main.feels_like) : Math.round((day.main.feels_like * 9/5) + 32)}${tempUnit}
+                    </div>
+                    <div class="bg-slate-700/50 rounded p-2">
+                        <i class="fas fa-tachometer-alt mr-1"></i> ${day.main.pressure} hPa
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function groupForecastByDay(forecastList) {
+    const days = {};
+    forecastList.forEach(item => {
+        const date = new Date(item.dt * 1000).toLocaleDateString();
+        if (!days[date] || item.dt_txt.includes('12:00:00')) {
+            days[date] = item;
+        }
+    });
+    return Object.values(days);
+}
+
+// Add unit toggle functionality
+document.getElementById('toggleUnitsBtn').addEventListener('click', () => {
+    useCelsius = !useCelsius;
+    const currentData = JSON.parse(sessionStorage.getItem('lastWeatherData'));
+    if (currentData) {
+        displayForecast(currentData.forecast.list, useCelsius);
+        updateCurrentTempDisplay(currentData.current, useCelsius);
+    }
+});
+
+function updateCurrentTempDisplay(currentData, useCelsius) {
+    const tempElement = document.getElementById('currentTemp');
+    const feelsLikeElement = document.getElementById('tempFeelsLike');
+    
+    if (useCelsius) {
+        tempElement.textContent = `${Math.round(currentData.main.temp)}°C`;
+        feelsLikeElement.textContent = `${Math.round(currentData.main.feels_like)}°`;
+    } else {
+        tempElement.textContent = `${Math.round((currentData.main.temp * 9/5) + 32)}°F`;
+        feelsLikeElement.textContent = `${Math.round((currentData.main.feels_like * 9/5) + 32)}°`;
+    }
+}
+
+// Store data when fetching
+async function fetchWeatherData(city) {
+    try {
+        const data = await originalFetchWeatherData(city); // Your existing function
+        sessionStorage.setItem('lastWeatherData', JSON.stringify(data));
+        return data;
+    } catch (error) {
+        throw error;
+    }
 }
 
 // Clear input button functionality
