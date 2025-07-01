@@ -1,16 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-        <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Weather Forecast App</title>
-                <link href="./styles.css" rel="stylesheet">
-                <script src="./script.js" defer></script>
-        </head>
-        <body class="min-h-screen bg-gray-100">
-                <div class="container mx-auto px-4 py-8">
-                        <h1 class="text-3xl font-bold text-center text-blue-600 mb-8">Weather Dashboard</h1>
-                        <!-- Weather app content will go here -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#7c3aed',
+                        secondary: '#5b21b6',
+                        dark: '#0f172a',
+                        light: '#f1f5f9'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-dark text-light min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="mb-10 text-center">
+            <h1 class="text-4xl font-bold text-primary mb-2">WeatherSphere</h1>
+            <p class="text-indigo-300">Your personal weather companion</p>
+        </header>
+        
+        <div class="bg-slate-800 rounded-xl shadow-2xl p-6 mb-8">
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="relative flex-grow">
+                    <input type="text" 
+                           id="cityInput" 
+                           placeholder="Enter a city name..." 
+                           class="w-full bg-slate-700 border border-slate-600 rounded-lg py-3 px-4 text-light focus:outline-none focus:ring-2 focus:ring-primary">
+                    <div id="recentSearches" class="hidden absolute z-10 w-full mt-1 bg-slate-700 rounded-lg shadow-lg"></div>
                 </div>
-        </body>
+                <button id="searchBtn" class="bg-primary hover:bg-secondary text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                    <i class="fas fa-search mr-2"></i> Search
+                </button>
+                <button id="currentLocationBtn" class="bg-slate-700 hover:bg-slate-600 text-primary font-bold py-3 px-6 rounded-lg transition-colors">
+                    <i class="fas fa-location-arrow mr-2"></i> Current Location
+                </button>
+            </div>
+        </div>
+        
+        <div id="weatherContainer" class="hidden bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl shadow-2xl p-6 mb-8">
+            <!-- Current weather will be inserted here -->
+        </div>
+        
+        <div id="forecastContainer" class="hidden">
+            <h2 class="text-2xl font-bold text-primary mb-4">5-Day Forecast</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <!-- Forecast cards will be inserted here -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
 </html>
