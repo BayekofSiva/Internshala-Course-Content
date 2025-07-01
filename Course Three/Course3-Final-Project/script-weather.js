@@ -1,5 +1,5 @@
 // API Configuration
-const API_KEY = 'YOUR_OPENWEATHERMAP_API_KEY'; // Replace with your actual API key
+const API_KEY = 'ab8725384e84705d0057a0cfe9252707'; // Openweather Actual API Key
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
 
 // DOM Elements
@@ -16,21 +16,28 @@ let recentCities = JSON.parse(localStorage.getItem('recentCities')) || [];
 // Fetch weather data
 async function fetchWeatherData(city) {
     try {
-        // Fetch current weather
-        const currentResponse = await fetch(`${BASE_URL}/weather?q=${city}&units=metric&appid=${API_KEY}`);
-        if (!currentResponse.ok) throw new Error('City not found');
+        // First try with country code
+        let response = await fetch(`${BASE_URL}/weather?q=${city},IN&units=metric&appid=${API_KEY}`);
         
-        const currentData = await currentResponse.json();
+        // If fails, try without country code
+        if (!response.ok) {
+            response = await fetch(`${BASE_URL}/weather?q=${city}&units=metric&appid=${API_KEY}`);
+        }
         
-        // Fetch forecast
-        const forecastResponse = await fetch(`${BASE_URL}/forecast?q=${city}&units=metric&appid=${API_KEY}`);
-        if (!forecastResponse.ok) throw new Error('Forecast not available');
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'City not found');
+        }
         
-        const forecastData = await forecastResponse.json();
+        const currentData = await response.json();
+        const forecastResponse = await fetch(`${BASE_URL}/forecast?q=${currentData.name},${currentData.sys.country}&units=metric&appid=${API_KEY}`);
         
-        return { current: currentData, forecast: forecastData };
+        return {
+            current: currentData,
+            forecast: await forecastResponse.json()
+        };
     } catch (error) {
-        console.error('Error fetching weather data:', error);
+        console.error('Fetch error:', error);
         throw error;
     }
 }
@@ -102,6 +109,145 @@ function filterDailyForecast(forecastList) {
     
     return dailyForecasts;
 }
+
+// Enhanced search functionality
+async function searchWeather() {
+    const city = cityInput.value.trim();
+    
+    // Validation
+    if (!city) {
+        showError("Please enter a city name");
+        return;
+    }
+    
+    // Show loading state
+    searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Searching';
+    searchBtn.disabled = true;
+    
+    try {
+        const weatherData = await fetchWeatherData(city);
+        displayWeatherData(weatherData);
+        hideError();
+        addToRecentSearches(city);
+    } catch (error) {
+        showError("Could not find weather data for this location. Please try another city.");
+        console.error('Search error:', error);
+    } finally {
+        searchBtn.innerHTML = '<i class="fas fa-search mr-2"></i> Search';
+        searchBtn.disabled = false;
+    }
+}
+
+// Enhanced current location function
+function getCurrentLocationWeather() {
+    currentLocationBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Locating';
+    currentLocationBtn.disabled = true;
+    
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                try {
+                    const { latitude, longitude } = position.coords;
+                    const response = await fetch(`${BASE_URL}/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`);
+                    
+                    if (!response.ok) throw new Error('Location data not available');
+                    
+                    const data = await response.json();
+                    cityInput.value = data.name;
+                    const weatherData = await fetchWeatherData(data.name);
+                    displayWeatherData(weatherData);
+                    addToRecentSearches(data.name);
+                    hideError();
+                } catch (error) {
+                    showError("Error getting your location weather. Please try again.");
+                } finally {
+                    currentLocationBtn.innerHTML = '<i class="fas fa-location-arrow mr-2"></i> Current Location';
+                    currentLocationBtn.disabled = false;
+                }
+            },
+            (error) => {
+                let errorMessage = "Error: Please enable location access to use this feature.";
+                if (error.code === error.TIMEOUT) {
+                    errorMessage = "Location request timed out. Please try again.";
+                }
+                showError(errorMessage);
+                currentLocationBtn.innerHTML = '<i class="fas fa-location-arrow mr-2"></i> Current Location';
+                currentLocationBtn.disabled = false;
+            },
+            { timeout: 10000 } // 10 second timeout
+        );
+    } else {
+        showError("Geolocation is not supported by your browser.");
+        currentLocationBtn.innerHTML = '<i class="fas fa-location-arrow mr-2"></i> Current Location';
+        currentLocationBtn.disabled = false;
+    }
+}
+
+// Enhanced recent searches dropdown
+function updateRecentSearchesDropdown() {
+    if (recentCities.length > 0) {
+        recentSearches.innerHTML = recentCities.map(city => `
+            <div class="p-3 hover:bg-slate-600 cursor-pointer flex items-center justify-between border-b border-slate-600 last:border-b-0">
+                <span onclick="searchCity('${city}')">${city}</span>
+                <button onclick="removeRecentCity('${city}', event)" class="text-slate-400 hover:text-red-400">
+                    <i class="fas fa-times text-xs"></i>
+                </button>
+            </div>
+        `).join('');
+        recentSearches.classList.remove('hidden');
+    } else {
+        recentSearches.classList.add('hidden');
+    }
+}
+
+// Remove city from recent searches
+function removeRecentCity(city, event) {
+    event.stopPropagation();
+    recentCities = recentCities.filter(c => c !== city);
+    localStorage.setItem('recentCities', JSON.stringify(recentCities));
+    updateRecentSearchesDropdown();
+}
+
+// Error handling functions
+function showError(message) {
+    errorMessage.innerHTML = `
+        <div class="flex items-start">
+            <i class="fas fa-exclamation-triangle mt-1 mr-2"></i>
+            <span>${message}.<br>Try: "Delhi,IN" or "New Delhi"</span>
+        </div>
+    `;
+    errorMessage.classList.remove('hidden');
+}
+
+function hideError() {
+    errorMessage.classList.add('hidden');
+}
+
+// Clear input button functionality
+cityInput.addEventListener('input', () => {
+    clearInputBtn.classList.toggle('hidden', !cityInput.value);
+});
+
+clearInputBtn.addEventListener('click', () => {
+    cityInput.value = '';
+    clearInputBtn.classList.add('hidden');
+    cityInput.focus();
+});
+
+// Keyboard support
+cityInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        searchWeather();
+    }
+});
+
+// Expose functions to global scope
+window.searchCity = function(city) {
+    cityInput.value = city;
+    searchWeather();
+    recentSearches.classList.add('hidden');
+};
+
 
 // Add city to recent searches
 function addToRecentSearches(city) {
