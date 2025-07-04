@@ -388,16 +388,7 @@ function updateCurrentTempDisplay(currentData, useCelsius) {
     }
 }
 
-// Store data when fetching
-async function fetchWeatherData(city) {
-    try {
-        const data = await originalFetchWeatherData(city); // Your existing function
-        sessionStorage.setItem('lastWeatherData', JSON.stringify(data));
-        return data;
-    } catch (error) {
-        throw error;
-    }
-}
+
 
 // Clear input button functionality
 cityInput.addEventListener('input', () => {
