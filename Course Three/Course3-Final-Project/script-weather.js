@@ -6,92 +6,104 @@ const BASE_URL = 'https://api.openweathermap.org/data/2.5';
 // DOM Elements
 const cityInput = document.getElementById('cityInput');
 const searchBtn = document.getElementById('searchBtn');
+const errorMessage = document.getElementById('errorMessage');
 const currentLocationBtn = document.getElementById('currentLocationBtn');
 const recentSearches = document.getElementById('recentSearches');
 const weatherContainer = document.getElementById('weatherContainer');
 const forecastContainer = document.getElementById('forecastContainer');
+
+// Event Listeners (testing)
+searchBtn.addEventListener('click', searchWeather);
+currentLocationBtn.addEventListener('click', getCurrentLocationWeather);
+
+cityInput.addEventListener('focus', updateRecentSearchesDropdown);
+cityInput.addEventListener('blur', () => {
+    setTimeout(() => recentSearches.classList.add('hidden'), 200);
+});
 
 // Recent searches array
 let recentCities = JSON.parse(localStorage.getItem('recentCities')) || [];
 
 // Fetch weather data
 async function fetchWeatherData(city) {
-    
     try {
-        const response = await fetch(`${BASE_URL}/weather?q=${encodeURIComponent(city)}&units=metric&appid=${API_KEY}`);
-        
-        if(!API_KEY || API_KEY.includes('YOUR_API_KEY')) {
-      console.warn("Using mock data - API key not active yet");
-      return getMockWeather(city);
-      }
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(
-                errorData.message || 
-                `API Error: ${response.status} - ${response.statusText}`
+        // First trying with real API if key exists
+        if(API_KEY && !API_KEY.includes('YOUR_API_KEY')) {
+            const currentResponse = await fetch(
+                `${BASE_URL}/weather?q=${encodeURIComponent(city)}&units=metric&appid=${API_KEY}`
             );
+            
+            if (!currentResponse.ok) throw new Error('City not found');
+            
+            const currentData = await currentResponse.json();
+            const forecastResponse = await fetch(
+                `${BASE_URL}/forecast?lat=${currentData.coord.lat}&lon=${currentData.coord.lon}&units=metric&appid=${API_KEY}`
+            );
+            
+            const weatherData = {
+                current: currentData,
+                forecast: await forecastResponse.json()
+            };
+            
+            // Store for offline use
+            sessionStorage.setItem('lastWeatherData', JSON.stringify(weatherData));
+            return weatherData;
         }
         
-        const currentData = await response.json();
-        const forecastResponse = await fetch(`${BASE_URL}/forecast?lat=${currentData.coord.lat}&lon=${currentData.coord.lon}&units=metric&appid=${API_KEY}`);
+        // Fallback to mock data
+        return getMockWeather(city.split(',')[0].trim());
         
-        if (!forecastResponse.ok) throw new Error('Failed to load forecast data');
-        
-        return {
-            current: currentData,
-            forecast: await forecastResponse.json()
-        };
     } catch (error) {
-        console.error("Falling back to mock data due to error:", error);
-        return getMockWeather(city);
-        console.error('API Error:', error);
-        throw new Error(`Weather data unavailable. ${error.message}`);
+        console.error("Using mock data due to:", error);
+        return getMockWeather(city.split(',')[0].trim());
     }
 }
 
 // Temporary mock data generator
 function getMockWeather(city) {
-  const mockCities = {
-    "Delhi": {
-      coord: { lat: 28.61, lon: 77.23 },
-      weather: [{ id: 800, main: "Clear", description: "clear sky", icon: "01d" }],
-      main: {
-        temp: 32,
-        feels_like: 34,
-        pressure: 1012,
-        humidity: 42
-      },
-      visibility: 5000,
-      wind: { speed: 3.1 },
-      sys: { 
-        country: "IN",
-        sunrise: Math.floor(Date.now()/1000) - 21600, // 6 hours ago
-        sunset: Math.floor(Date.now()/1000) + 21600  // 6 hours from now
-      },
-      name: "Delhi"
-    }
-  };
-  
-  return {
-    current: mockCities[city] || mockCities["Delhi"],
-    forecast: {
-      list: Array(5).fill().map((_,i) => ({
-        dt: Date.now()/1000 + (86400 * i),
-        main: {
-          temp: 30 + Math.random() * 5,
-          feels_like: 32 + Math.random() * 5,
-          humidity: 40 + Math.random() * 30,
-          pressure: 1010 + Math.random() * 10
+    const mockCities = {
+        "Delhi": { temp: 32, condition: "Clear", icon: "01d" },
+        "London": { temp: 18, condition: "Cloudy", icon: "03d" },
+        "New York": { temp: 22, condition: "Partly Cloudy", icon: "02d" }
+    };
+    
+    const cityData = mockCities[city] || mockCities["Delhi"];
+    
+    return {
+        current: {
+            name: city,
+            sys: { country: city === "London" ? "UK" : city === "New York" ? "US" : "IN" },
+            main: { 
+                temp: cityData.temp,
+                feels_like: cityData.temp + 2,
+                humidity: 50 + Math.floor(Math.random() * 30),
+                pressure: 1010 + Math.floor(Math.random() * 10)
+            },
+            weather: [{ 
+                description: cityData.condition,
+                icon: cityData.icon 
+            }],
+            wind: { speed: (1 + Math.random() * 5).toFixed(1) },
+            visibility: 10000,
+            dt: Date.now() / 1000
         },
-        weather: [{
-          icon: ["01d","02d","03d","04d","09d","10d","11d","13d"][Math.floor(Math.random()*8)],
-          description: ["clear","cloudy","rainy"][Math.floor(Math.random()*3)]
-        }],
-        wind: { speed: (1 + Math.random() * 5).toFixed(1) }
-      }))
-    }
-  };
+        forecast: {
+            list: Array(5).fill().map((_, i) => ({
+                dt: Date.now()/1000 + (86400 * (i+1)),
+                main: {
+                    temp: cityData.temp + (Math.random() * 4 - 2),
+                    feels_like: cityData.temp + (Math.random() * 4 - 2) + 2,
+                    humidity: 50 + Math.floor(Math.random() * 30),
+                    pressure: 1010 + Math.floor(Math.random() * 10)
+                },
+                weather: [{
+                    icon: ["01d","02d","03d","04d"][Math.floor(Math.random()*4)],
+                    description: ["Clear","Partly Cloudy","Cloudy","Overcast"][Math.floor(Math.random()*4)]
+                }],
+                wind: { speed: (1 + Math.random() * 5).toFixed(1) }
+            }))
+        }
+    };
 }
 
 function displayWeatherData(data) {
@@ -161,21 +173,25 @@ function filterDailyForecast(forecastList) {
 }
 
 async function searchWeather() {
+    const city = cityInput.value.trim();
+    if (!city) {
+        showError('Please enter a city name');
+        return;
+    }
+
+    searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching';
+    searchBtn.disabled = true;
+
     try {
-        const city = cityInput.value.trim();
-        if (!city) throw new Error('Please enter a city name');
-        
-        const cachedData = checkNetworkConnection();
-        if (cachedData) {
-            displayWeatherData(cachedData);
-            showError('Offline mode: Showing cached data', 'warning');
-            return;
-        }
-        
-        // ... rest of your search logic ...
+        const weatherData = await fetchWeatherData(city);
+        displayWeatherData(weatherData);
+        addToRecentSearches(city);
+        hideError();
     } catch (error) {
-        showError(error.message);
-        console.error('Search error:', error);
+        showError(`Error: ${error.message}`);
+    } finally {
+        searchBtn.innerHTML = '<i class="fas fa-search mr-2"></i> Search';
+        searchBtn.disabled = false;
     }
 }
 

@@ -159,6 +159,19 @@ body {
     }
 }
 
+#weatherContainer.show, #forecastContainer.show {
+    display: block !important;
+}
+
+/* Loading spinner animation */
+.fa-spinner {
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .fa-cloud-sun:before { content: "☁️☀️"; }
 .fa-search:before { content: "🔍"; }
 .fa-location-arrow:before { content: "📍"; }
