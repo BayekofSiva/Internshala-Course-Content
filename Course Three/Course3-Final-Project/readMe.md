@@ -14,7 +14,7 @@
 
 1. **Get an API Key**
    - Register at [OpenWeatherMap](https://openweathermap.org)
-   - Get your free API key
+   - Get your free API key (this is not working)
 
 2. **Run the Application**
    ```bash
@@ -35,9 +35,9 @@
 ### File Structure
 ```
 weather-app/
-├── index.html          # Main application
-├── styles.css          # Custom styles
-├── script.js           # Core functionality
+├── index-weather.html          # Main application
+├── styles-weather.css          # Custom styles
+├── script-weather.js           # Core functionality
 └── README.md           # Documentation
 ```
 
