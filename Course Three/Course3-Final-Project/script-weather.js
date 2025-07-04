@@ -491,3 +491,7 @@ updateRecentSearchesDropdown();
 console.log("Script loaded successfully");
 console.log("Tailwind loaded:", window.tailwind !== undefined);
 console.log("Font Awesome loaded:", window.FontAwesome !== undefined);
+
+if(data.source === 'mock') {
+    showError('Showing mock data - API may not be active yet', 'info');
+}
