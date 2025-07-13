@@ -48,7 +48,7 @@ async function getSortedPopularComments()
                 if (failedAttempts >= 10) 
                 {
                         console.log("Failed to fetch comments after 10 attempts: "); //C
-                        console.log("If the issue persists, try again later."); //C
+                        console.log("The issuse is persisting, please try again later."); //C
                 }            
                 
                 return [];
