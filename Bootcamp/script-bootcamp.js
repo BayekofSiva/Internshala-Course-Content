@@ -31,8 +31,27 @@ async function getSortedPopularComments()
 
         catch (error) 
         {
-                console.error('Failed to fetch comments & data:', error);
-                console.log(error.message);
+                failedAttempts++;
+
+                // Always show A
+                console.error('Failed to fetch comments & data:', error); //A
+                console.log(error.message); //A
+
+                // Show B after 3 attempts
+                if (failedAttempts >= 3) 
+                {
+                        console.log("Please check your internet connection or the API endpoint."); //B
+                        console.log("Failed to fetch comments after 3 attempts."); //B
+                }
+
+                // Show C after 10 attempts
+                if (failedAttempts >= 10) 
+                {
+                        console.log("Failed to fetch comments after 10 attempts."); //C
+                        console.log("If the issue persists, try again later."); //C
+                }            
+                
+                return [];
         }
 }
 
