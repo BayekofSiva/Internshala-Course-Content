@@ -1,30 +1,38 @@
-async function getPopularComments() {
-        try {
+async function getSortedPopularComments() 
+{
+        try 
+        {
                 const response = await fetch('https://dummyjson.com/comments');
                 const { comments } = await response.json();
                 
-                // Filtering comments with more than 5 likes & using map to get usernames
+                // Filtering comments with >5 likes
                 const popularComments = comments
                 .filter(comment => comment.likes > 5)
-                .map(({ body, user, likes }) => ({
-                        username: user.username,
-                        body,
-                        likes
+                .map(comment => ({
+                        username: comment.user.username,
+                        body: comment.body,
+                        likes: comment.likes
                 }));
                 
-                // Displaying the Data
-                console.log("Popular Comments (likes > 5):");
+                // Sorting by likes
+                popularComments.sort((a, b) => a.likes - b.likes);
+                
+                // Displaying Data
+                
+                console.log("Comments with >5 likes (sorted by least to most):");
+                console.log("-----------------------------------------------");
                 popularComments.forEach((comment, index) => {
-                console.log(`${index + 1}. Username: ${comment.username}`);
-                console.log(`   Comment: ${comment.body}`);
-                console.log(`   Likes: ${comment.likes}\n`);
+                console.log(`${index + 1}. [${comment.likes} likes] @${comment.username}`);
+                console.log(`   "${comment.body}"\n`);
                 });
                 
                 return popularComments;
         } 
-        catch (error) {
+        
+        catch (error) 
+        {
                 console.error('Failed to fetch comments:', error);
         }
 }
 
-getPopularComments();
+getSortedPopularComments();
