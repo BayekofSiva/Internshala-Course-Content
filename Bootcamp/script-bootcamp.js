@@ -17,21 +17,21 @@ async function getSortedPopularComments()
                 // Sorting by likes
                 popularComments.sort((a, b) => a.likes - b.likes);
                 
-                // Displaying Data
-                
+                // Displaying Data                
                 console.log("Comments with >5 likes (sorted by least to most):");
                 console.log("-----------------------------------------------");
+
                 popularComments.forEach((comment, index) => {
                 console.log(`${index + 1}. [${comment.likes} likes] @${comment.username}`);
-                console.log(`   "${comment.body}"\n`);
+                console.log(`"${comment.body}"\n`);
                 });
                 
                 return popularComments;
         } 
-        
+
         catch (error) 
         {
-                console.error('Failed to fetch comments:', error);
+                console.error('Failed to fetch comments & data:', error);
         }
 }
 
