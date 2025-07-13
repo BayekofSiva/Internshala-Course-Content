@@ -32,6 +32,7 @@ async function getSortedPopularComments()
         catch (error) 
         {
                 console.error('Failed to fetch comments & data:', error);
+                console.log(error.message);
         }
 }
 
