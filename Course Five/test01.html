@@ -12,4 +12,26 @@
                 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>                
                 <script src="test01.jsx"></script>
         </body>
+        <script type="text/babel">
+                
+                function MentorStudentDisplay({ mentor, student }) {
+                        return (
+                                <div>
+                                        <h1>Mentor-Student Application</h1>
+                                        <h2>Mentor: {mentor.name}</h2>
+                                        <p>Expertise: {mentor.expertise}</p>
+                                        <h2>Student: {student.name}</h2>
+                                        <p>Goal: {student.goal}</p>
+                                </div>
+                        );
+                }
+                
+                const mentor = { name: "John Doe", expertise: "Web Development" };
+                const student = { name: "Jane Smith", goal: "Learn React" };
+                
+                ReactDOM.render(
+                        <MentorStudentDisplay mentor={mentor} student={student} />,
+                        document.getElementById('root')
+                );
+        </script>
 </html>
