@@ -132,36 +132,81 @@
 // root.render(<App />);
 
 
-import React from 'react';
-const mentor = [
-  {
-    name: 'Samarth',
-    students: ['Bhushan', 'Krish'],
-  },
-  {
-    name: 'Anshika',
-    students: ['Anshika']
-  }
+// import React from 'react';
+// const mentor = [
+//   {
+//     name: 'Samarth',
+//     students: ['Bhushan', 'Krish'],
+//   },
+//   {
+//     name: 'Anshika',
+//     students: ['Anshika']
+//   }
+// ];
+
+// const MentComp = () => {
+//   return (
+//     <div>
+//       <h1>Mentor & Student</h1>{
+//         mentor.map((mentor, index) => {
+//           return (
+//             <div>
+//               <p>{mentor.name}</p>
+//               <ul>{mentor.students.map((students, idx) => {
+//                 return (
+//                   <li key={idx}>{students}</li>
+//                 )
+//               })}</ul>
+//             </div>
+//           )
+//         })
+//       }
+      
+//     </div>
+//   )
+// }
+
+// app.jsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+
+const dogs = [
+  { name: "Buddy", age: 3, breed: "Golden Retriever" },
+  { name: "Rex", age: 5, breed: "German Shepherd" },
+  { name: "Milo", age: 2, breed: "Beagle" },
+  { name: "Luna", age: 4, breed: "Labrador" },
+  { name: "Oscar", age: 1, breed: "Bulldog" },
 ];
 
-const MentComp = () => {
+const cats = [
+  { name: "Whiskers", breed: "Siamese" },
+  { name: "Mittens", breed: "Persian" },
+  { name: "Shadow", breed: "Maine Coon" },
+];
+
+function App() {
   return (
-    <div>
-      <h1>Mentor & Student</h1>{
-        mentor.map((mentor, index) => {
-          return (
-            <div>
-              <p>{mentor.name}</p>
-              <ul>{mentor.students.map((students, idx) => {
-                return (
-                  <li key={idx}>{students}</li>
-                )
-              })}</ul>
-            </div>
-          )
-        })
-      }
-      
+    <div style={{ padding: "20px", fontFamily: "Arial" }}>
+      <h1>Dogs</h1>
+      <ul>
+        {dogs.map((dog, index) => (
+          <li key={index}>
+            <strong>Name:</strong> {dog.name} | <strong>Age:</strong> {dog.age} | <strong>Breed:</strong> {dog.breed}
+          </li>
+        ))}
+      </ul>
+
+      <h1>Cats</h1>
+      <ul>
+        {cats.map((cat, index) => (
+          <li key={index}>
+            <strong>Name:</strong> {cat.name} | <strong>Breed:</strong> {cat.breed}
+          </li>
+        ))}
+      </ul>
     </div>
-  )
+  );
 }
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
