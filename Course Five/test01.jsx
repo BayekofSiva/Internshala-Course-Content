@@ -25,9 +25,9 @@ const Footer = () => {
 const App = () => {
         return (
         <div>
-        <Header />
-        <Body />
-        <Footer />
+                <Header />
+                <Body />
+                <Footer />
         </div>
         );
 };
