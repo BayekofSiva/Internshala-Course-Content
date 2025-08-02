@@ -10,7 +10,13 @@ function App() {
 
   const addTask = () => {
     if (newTask.trim() !== "") {
-      setTodos([...todos, { id: Date.now(), text: newTask, completed: false }]);
+      const newTodo = { 
+        id: Date.now(), 
+        text: newTask, 
+        completed: false 
+      };
+      console.log("Adding task:", newTodo); // Debug log
+      setTodos([...todos, newTodo]);
       setNewTask("");
     }
   };
