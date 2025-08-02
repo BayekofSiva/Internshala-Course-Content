@@ -1,6 +1,6 @@
 import ToDoItem from "./ToDoItem";
 
-const ToDoList = ({ todos, onDelete, onToggleComplete, onEdit }) => {
+const ToDoList = ({ todos, onDelete, onToggleComplete, editingId, editText, setEditText, startEditing, saveEdit, cancelEdit }) => {
         console.log("Current todos:", todos); // Debugging to check todos
         return (
         <ul className="todo-list">
