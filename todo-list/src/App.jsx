@@ -46,13 +46,13 @@ function App() {
         <button onClick={addTask}>Add</button>
       </div>
       <ToDoList
-        todos={todos}
-        onDelete={deleteTask}
-        onToggleComplete={toggleComplete}
-        onEdit={(id) => {
-          const newText = prompt("Edit task:", todos.find((t) => t.id === id).text);
-          if (newText !== null) editTask(id, newText);
-        }}
+          todos={todos}
+          onDelete={deleteTask}
+          onToggleComplete={toggleComplete}
+          onEdit={(id) => {
+            const newText = prompt("Edit task:", todos.find(t => t.id === id).text);
+            if (newText !== null) editTask(id, newText);
+          }}
       />
     </div>
   );
