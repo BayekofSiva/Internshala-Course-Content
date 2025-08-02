@@ -28,6 +28,9 @@ body {
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-height: calc(100vh - 120px); /* Creates space for footer */
+  position: relative;
+  padding-bottom: 80px; /* Footer height + margin */
 }
 
 /* ===== HEADER STYLES ===== */

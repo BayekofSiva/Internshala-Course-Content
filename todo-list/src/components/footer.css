@@ -1,0 +1,39 @@
+.app-footer {
+  background-color: #2b2d42;
+  color: white;
+  padding: 1.5rem 0;
+  margin-top: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.5s ease;
+}
+
+.app-footer:hover {
+  background-color: #1a1a2e;
+}
+
+.footer-content {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+}
+
+.github-link {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.github-link:hover {
+  color: #f8f9fa;
+  transform: translateY(-2px);
+}
+
+.fab {
+  font-size: 1.2rem;
+}

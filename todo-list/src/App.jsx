@@ -1,16 +1,17 @@
 import { useState } from "react";
 import Header from "./components/header";
 import ToDoList from "./components/ToDoList";
-import { ErrorBoundary } from 'react-error-boundary';
+import Footer from './components/footer';
+// import { ErrorBoundary } from 'react-error-boundary';
 
-function ErrorFallback({ error }) {
-  return (
-    <div>
-      <h2>Something went wrong</h2>
-      <p>{error.message}</p>
-    </div>
-  );
-}
+// function ErrorFallback({ error }) {
+//   return (
+//     <div>
+//       <h2>Something went wrong</h2>
+//       <p>{error.message}</p>
+//     </div>
+//   );
+// }
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -96,6 +97,7 @@ function App() {
           saveEdit={saveEdit}
           cancelEdit={cancelEdit}
       />
+      <Footer />
     </div>
   );
 }
