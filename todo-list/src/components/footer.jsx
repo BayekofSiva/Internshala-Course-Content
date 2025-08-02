@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="footer-content">
         <p>© {new Date().getFullYear()} To-Do List App</p>
         <a 
-          href="https://github.com/your-username/todo-list" 
+          href="https://github.com/BayekofSiva/Internshala-Course-Content/tree/master/todo-list" 
           target="_blank" 
           rel="noopener noreferrer"
           className="github-link"
