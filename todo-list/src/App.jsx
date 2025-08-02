@@ -5,6 +5,8 @@ import ToDoList from "./components/ToDoList";
 function App() {
   const [todos, setTodos] = useState([]);
   const [newTask, setNewTask] = useState("");
+  const [editingId, setEditingId] = useState(null);  // Tracks which task is being edited
+  const [editText, setEditText] = useState("");     // Stores the text during editing
 
   const addTask = () => {
     if (newTask.trim() !== "") {
@@ -13,8 +15,30 @@ function App() {
     }
   };
 
+  // Enhanced delete with confirmation
   const deleteTask = (id) => {
-    setTodos(todos.filter((task) => task.id !== id));
+    if (window.confirm("Are you sure you want to delete this task?")) {
+      setTodos(todos.filter(task => task.id !== id));
+    }
+  };
+
+  // Edit-related functions
+  const startEditing = (id, text) => {
+    setEditingId(id);
+    setEditText(text);
+  };
+
+  const saveEdit = (id) => {
+    if (editText.trim() !== "") {
+      setTodos(todos.map(task => 
+        task.id === id ? { ...task, text: editText } : task
+      ));
+      setEditingId(null);
+    }
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
   };
 
   const toggleComplete = (id) => {
@@ -49,10 +73,12 @@ function App() {
           todos={todos}
           onDelete={deleteTask}
           onToggleComplete={toggleComplete}
-          onEdit={(id) => {
-            const newText = prompt("Edit task:", todos.find(t => t.id === id).text);
-            if (newText !== null) editTask(id, newText);
-          }}
+          editingId={editingId}
+          editText={editText}
+          setEditText={setEditText}
+          startEditing={startEditing}
+          saveEdit={saveEdit}
+          cancelEdit={cancelEdit}
       />
     </div>
   );
