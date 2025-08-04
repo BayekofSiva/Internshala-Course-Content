@@ -100,3 +100,44 @@ body {
 .book-card a:hover {
   text-decoration: underline;
 }
+
+/* Browse Books Page */
+.browse-books h1 {
+  margin: 20px 0;
+  color: #2c3e50;
+}
+
+.search-bar {
+  margin: 20px 0;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.book-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.book-card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.book-card h2 {
+  margin-bottom: 5px;
+  color: #2c3e50;
+}
+
+.book-card p {
+  margin: 5px 0;
+}
