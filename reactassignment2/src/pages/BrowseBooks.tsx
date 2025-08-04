@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { books, Book } from '../data/books';
+import { Book } from '../data/books';
 import SearchBar from '../components/SearchBar';
 import Navbar from '../components/Navbar';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+
+// Replace the books import with Redux selector
+const books = useSelector((state: RootState) => state.books.books);
 
 const BrowseBooks = () => {
   const { category } = useParams<{ category?: string }>();
