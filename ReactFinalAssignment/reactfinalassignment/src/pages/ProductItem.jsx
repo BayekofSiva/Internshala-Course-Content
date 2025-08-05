@@ -4,7 +4,7 @@ import { addItem } from '../redux/cartSlice';
 import PropTypes from 'prop-types';
 import { productType } from '../propTypes';
 import { useState } from 'react';
-import Toast from './Toast';
+import Toast from '../components/Toast';
 import { motion } from 'framer-motion';
 import { pageVariants, pageTransition } from '../utils/routeAnimations';
 
