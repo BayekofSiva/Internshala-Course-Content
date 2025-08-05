@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { addItem } from '../redux/cartSlice';
 import { productType } from '../propTypes';
+import { motion } from 'framer-motion';
+import { pageVariants, pageTransition } from '../utils/routeAnimations';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -11,6 +13,16 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
+
+  <motion.div
+    initial="initial"
+    animate="in"
+    exit="out"
+    variants={pageVariants}
+    transition={pageTransition}
+  >
+    {/* Page content */}
+  </motion.div>
 
   useEffect(() => {
     const fetchProduct = async () => {

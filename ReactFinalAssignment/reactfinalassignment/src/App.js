@@ -1,30 +1,74 @@
+// src/App.js
 import { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation
+} from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
+import LoadingSpinner from './components/LoadingSpinner';
+import ErrorBoundary from './components/ErrorBoundary';
 
-const ProductList = lazy(() => import('./components/ProductList'));
-const ProductDetail = lazy(() => import('./components/ProductDetail'));
-const Cart = lazy(() => import('./components/Cart'));
-const NotFound = lazy(() => import('./components/NotFound'));
+// Lazy-loaded components with code splitting
+const Home = lazy(() => import('./pages/Home'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const Cart = lazy(() => import('./pages/Cart'));
+const Checkout = lazy(() => import('./pages/Checkout'));
+const Login = lazy(() => import('./pages/Login'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+
+// Route guard components
+const AuthGuard = ({ children }) => {
+  const isAuthenticated = false; // Replace with actual auth check
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
+};
+
+const CartGuard = ({ children }) => {
+  const cartItems = useSelector(selectCartItems);
+  return cartItems.length > 0 ? children : <Navigate to="/cart" replace />;
+};
 
 function App() {
+  const location = useLocation(); 
+
   return (
-    <Router>
+    <>
       <Header />
-      <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          <Route path="/" element={<ProductList />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
-    </Router>
+      <ErrorBoundary>
+        <AnimatePresence mode="wait">
+          <Suspense fallback={<LoadingSpinner />}>
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<Home />} />
+              <Route path="/products/:id" element={<ProductDetail />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route
+                path="/checkout"
+                element={
+                  <CartGuard>
+                    <AuthGuard>
+                      <Checkout />
+                    </AuthGuard>
+                  </CartGuard>
+                }
+              />
+              <Route path="/login" element={<Login />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </AnimatePresence>
+      </ErrorBoundary>
+    </>
   );
+
+   <ScrollToTop />
+   useRouteAnalytics();
 }
 
-
-const Checkout = lazy(() => import('./components/Checkout'));
-<Route path="/checkout" element={<Checkout />} />
-
-export default App;
+export default () => (
+  <Router>
+    <App />
+  </Router>
+);

@@ -5,11 +5,23 @@ import PropTypes from 'prop-types';
 import { productType } from '../propTypes';
 import { useState } from 'react';
 import Toast from './Toast';
+import { motion } from 'framer-motion';
+import { pageVariants, pageTransition } from '../utils/routeAnimations';
 
 const ProductItem = ({ product }) => {
   const dispatch = useDispatch();
   const [notification, setNotification] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
+
+  <motion.div
+    initial="initial"
+    animate="in"
+    exit="out"
+    variants={pageVariants}
+    transition={pageTransition}
+  >
+    {/* Page content */}
+  </motion.div>
 
   const handleAddToCart = async () => {
     if (isAdding) return; // Prevent multiple clicks

@@ -3,10 +3,22 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts, setSearchTerm } from '../redux/productSlice';
 import ProductItem from './ProductItem';
 import { productType } from '../propTypes';
+import { motion } from 'framer-motion';
+import { pageVariants, pageTransition } from '../utils/routeAnimations';
 
 const ProductList = () => {
   const dispatch = useDispatch();
   const { items: products, status, error, searchTerm } = useSelector(state => state.products);
+
+  <motion.div
+    initial="initial"
+    animate="in"
+    exit="out"
+    variants={pageVariants}
+    transition={pageTransition}
+  >
+    {/* Blank */}
+  </motion.div>
 
   useEffect(() => {
     dispatch(fetchProducts());
