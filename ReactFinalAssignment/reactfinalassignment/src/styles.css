@@ -87,3 +87,36 @@ body {
   text-align: center;
   padding: 2rem;
 }
+
+/* Skeleton Loading */
+.product-skeleton {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.skeleton-image {
+  height: 200px;
+  background: #f0f0f0;
+  margin-bottom: 1rem;
+}
+
+.skeleton-title {
+  height: 20px;
+  background: #f0f0f0;
+  margin-bottom: 0.5rem;
+  width: 80%;
+}
+
+.skeleton-price {
+  height: 20px;
+  background: #f0f0f0;
+  width: 40%;
+}
+
+
+.product-list .products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}

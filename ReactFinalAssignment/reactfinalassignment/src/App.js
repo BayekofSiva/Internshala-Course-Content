@@ -23,4 +23,8 @@ function App() {
   );
 }
 
+
+const Checkout = lazy(() => import('./components/Checkout'));
+<Route path="/checkout" element={<Checkout />} />
+
 export default App;

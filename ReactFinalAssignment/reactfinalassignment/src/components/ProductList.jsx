@@ -1,18 +1,26 @@
-import { useState } from 'react';
-import useProducts from '../hooks/useProducts';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchProducts, setSearchTerm } from '../redux/productSlice';
 import ProductItem from './ProductItem';
-import './ProductList.css';
 
 const ProductList = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const { products, loading, error } = useProducts('https://fakestoreapi.com/products');
+  const dispatch = useDispatch();
+  const { items: products, status, error, searchTerm } = useSelector(state => state.products);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  const handleSearchChange = (e) => {
+    dispatch(setSearchTerm(e.target.value));
+  };
 
   const filteredProducts = products.filter(product =>
     product.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (loading) return <div>Loading products...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (status === 'loading') return <div>Loading products...</div>;
+  if (status === 'failed') return <div>Error: {error}</div>;
 
   return (
     <div className="product-list">
@@ -20,7 +28,7 @@ const ProductList = () => {
         type="text"
         placeholder="Search products..."
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={handleSearchChange}
         className="search-input"
       />
       <div className="products-grid">
@@ -31,5 +39,3 @@ const ProductList = () => {
     </div>
   );
 };
-
-export default ProductList;
