@@ -1,36 +1,49 @@
-import { useSelector } from 'react-redux';
-import { productType } from '../propTypes';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearCart } from '../redux/cartSlice';
+import { validateCheckoutForm } from '../utils/validation';
 
 const Checkout = () => {
-  const cartItems = useSelector(state => state.cart.items);
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity, 0
-  );
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    cardNumber: ''
+  });
+  const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validateCheckoutForm(formData);
+    
+    if (validationErrors) {
+      setErrors(validationErrors);
+      return;
+    }
+    
+    
+    setTimeout(() => {
+      dispatch(clearCart());
+      alert('Order placed successfully!');
+    }, 1000);
+  };
 
   return (
-    <div className="checkout">
-      <h2>Checkout</h2>
-      <div className="order-summary">
-        <h3>Order Summary</h3>
-        <ul>
-          {cartItems.map(item => (
-            <li key={item.id}>
-              {item.title} - {item.quantity} x ${item.price}
-            </li>
-          ))}
-        </ul>
-        <div className="total">Total: ${total.toFixed(2)}</div>
-      </div>
-      <form className="checkout-form">
-        {/* Add form fields for shipping/payment */}
-        <button type="submit">Place Order</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input
+        name="name"
+        value={formData.name}
+        onChange={(e) => setFormData({...formData, name: e.target.value})}
+        aria-invalid={!!errors.name}
+      />
+      {errors.name && <span className="error">{errors.name}</span>}
+      
+      {}
+      
+      <button type="submit" disabled={!cartItems.length}>
+        Place Order
+      </button>
+    </form>
   );
 };
-
-ProductItem.propTypes = {
-  product: productType.isRequired
-};
-
-export default Checkout;
