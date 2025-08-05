@@ -1,0 +1,18 @@
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.product-card:hover {
+  animation: float 2s ease-in-out infinite;
+}
+
+/* Pulse effect for loading */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.loading-element {
+  animation: pulse 1.5s ease-in-out infinite;
+}

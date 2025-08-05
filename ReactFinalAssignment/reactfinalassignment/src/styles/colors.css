@@ -1,0 +1,20 @@
+:root {
+  /* Primary Teal/Turquoise Palette */
+  --teal-900: #003d3d;
+  --teal-800: #006666;
+  --teal-700: #008080;
+  --teal-600: #00a3a3;
+  --teal-500: #00cccc; /* Base brand color */
+  --teal-400: #33d6d6;
+  --teal-300: #66e0e0;
+  --teal-200: #99ebeb;
+  --teal-100: #ccf5f5;
+
+  /* Supporting Colors */
+  --dark-bg: #0f1a1a;
+  --light-bg: #f5fdfd;
+  --text-dark: #1a2e2e;
+  --text-light: #e0f7f7;
+  --accent-orange: #ff7f50;
+  --accent-pink: #ff6b8b;
+}

@@ -1,0 +1,17 @@
+h1, h2, h3 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--teal-800);
+}
+
+.dark-mode h1, 
+.dark-mode h2, 
+.dark-mode h3 {
+  color: var(--teal-300);
+}
+
+h1 {
+  border-bottom: 2px solid var(--teal-200);
+  padding-bottom: 0.5rem;
+}
+
+/* Import Google Font in index.html */
