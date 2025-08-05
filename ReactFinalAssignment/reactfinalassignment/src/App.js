@@ -20,7 +20,7 @@ const ProductDetail = lazy(() => import('./pages/ProductDetail'));
 const Cart = lazy(() => import('./pages/Cart'));
 const Checkout = lazy(() => import('./pages/Checkout'));
 const NotFound = lazy(() => import('./pages/NotFound'));
-const Login = lazy(() => import('./pages/Login'));
+const Login = lazy(() => import('./pages/login'));
 
 // Route guard components
 const AuthGuard = ({ children }) => {
@@ -44,6 +44,12 @@ function AppWrapper() {
 function App() {
   const location = useLocation();
   const [darkMode, setDarkMode] = useState(false);
+
+  
+  const AuthGuard = ({ children }) => {
+    const isAuthenticated = localStorage.getItem('isAuthenticated');
+    return isAuthenticated ? children : <Navigate to="/login" replace />;
+  };
 
   // Initialize analytics and theme
   useRouteAnalytics();
