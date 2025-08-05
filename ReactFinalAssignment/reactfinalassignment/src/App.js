@@ -24,7 +24,7 @@ const Login = lazy(() => import('./pages/login'));
 
 // Route guard components
 const AuthGuard = ({ children }) => {
-  const isAuthenticated = false; // Replace with actual auth check
+  const isAuthenticated = false; 
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
 
