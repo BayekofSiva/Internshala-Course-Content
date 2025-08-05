@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { selectCartItemCount } from '..redux/selectors';
+import { use } from 'react';
 
 const Header = () => {
+  const cartCount = useSelector(selectCartItemCount);
   const cartItems = useSelector(state => state.cart.items);
   const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 

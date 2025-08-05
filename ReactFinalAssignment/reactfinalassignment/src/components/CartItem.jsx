@@ -6,14 +6,14 @@ const CartItem = ({ item }) => {
   const dispatch = useDispatch();
 
   const handleRemove = () => {
-    dispatch(removeItem(item));
+    dispatch(removeItem(item.id));
   };
 
   const handleQuantityChange = (e) => {
-    const newQuantity = parseInt(e.target.value);
-    if (newQuantity > 0) {
-      dispatch(updateQuantity({ id: item.id, quantity: newQuantity }));
-    }
+    dispatch(updateQuantity({ 
+      id: item.id, 
+      quantity: parseInt(e.target.value) 
+    }));
   };
 
   return (
