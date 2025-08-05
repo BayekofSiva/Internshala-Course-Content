@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { addItem } from '../redux/cartSlice';
+import { productType } from '../propTypes';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -46,6 +47,18 @@ const ProductDetail = () => {
       </div>
     </div>
   );
+};
+
+ProductDetail.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
+};
+
+ProductItem.propTypes = {
+  product: productType.isRequired
 };
 
 export default ProductDetail;

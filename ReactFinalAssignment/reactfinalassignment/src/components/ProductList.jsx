@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts, setSearchTerm } from '../redux/productSlice';
 import ProductItem from './ProductItem';
+import { productType } from '../propTypes';
 
 const ProductList = () => {
   const dispatch = useDispatch();
@@ -38,4 +39,18 @@ const ProductList = () => {
       </div>
     </div>
   );
+};
+
+ProductList.propTypes = {
+  // Redux-injected props (if needed)
+  products: PropTypes.array,
+  loading: PropTypes.bool,
+  error: PropTypes.string,
+  fetchProducts: PropTypes.func,
+  searchTerm: PropTypes.string,
+  setSearchTerm: PropTypes.func
+};
+
+ProductItem.propTypes = {
+  product: productType.isRequired
 };

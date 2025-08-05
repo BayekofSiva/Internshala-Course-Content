@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { productType } from '../propTypes';
 
 const Checkout = () => {
   const cartItems = useSelector(state => state.cart.items);
@@ -26,6 +27,10 @@ const Checkout = () => {
       </form>
     </div>
   );
+};
+
+ProductItem.propTypes = {
+  product: productType.isRequired
 };
 
 export default Checkout;

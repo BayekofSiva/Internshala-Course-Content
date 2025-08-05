@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import CartItem from './CartItem';
+import { productType } from '../propTypes';
 
 const Cart = () => {
   const cartItems = useSelector(state => state.cart.items);
@@ -25,5 +26,11 @@ const Cart = () => {
     </div>
   );
 };
+
+ProductItem.propTypes = {
+  product: productType.isRequired
+};
+
+
 
 export default Cart;

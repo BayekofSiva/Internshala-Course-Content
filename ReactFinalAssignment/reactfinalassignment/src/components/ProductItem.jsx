@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addItem } from '../redux/cartSlice';
+import PropTypes from 'prop-types';
+import { productType } from '../propTypes';
 
 const ProductItem = ({ product }) => {
   const dispatch = useDispatch();
@@ -19,6 +21,21 @@ const ProductItem = ({ product }) => {
       <button onClick={handleAddToCart}>Add to Cart</button>
     </div>
   );
+};
+
+ProductItem.propTypes = {
+  product: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    category: PropTypes.string
+  }).isRequired
+};
+
+ProductItem.propTypes = {
+  product: productType.isRequired
 };
 
 export default ProductItem;
