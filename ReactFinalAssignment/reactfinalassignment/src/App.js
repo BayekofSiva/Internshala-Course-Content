@@ -1,98 +1,30 @@
-import { lazy, Suspense, useState, useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-  useLocation
-} from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectCartItems } from './redux/selectors';
-import Header from './components/Header';
+import { lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import LoadingSpinner from './components/LoadingSpinner';
-import ScrollToTop from './components/ScrollToTop';
-import useRouteAnalytics from './hooks/useRouteAnalytics';
 
-// Lazy-loaded components
+// Corrected import paths
 const Home = lazy(() => import('./pages/Home'));
 const ProductList = lazy(() => import('./pages/ProductList'));
 const ProductDetail = lazy(() => import('./pages/ProductDetail'));
 const Cart = lazy(() => import('./pages/Cart'));
 const Checkout = lazy(() => import('./pages/Checkout'));
+const Login = lazy(() => import('./pages/Login'));
 const NotFound = lazy(() => import('./pages/NotFound'));
-const Login = lazy(() => import('./pages/login'));
-
-// Route guard components
-const AuthGuard = ({ children }) => {
-  const isAuthenticated = false; 
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
-};
-
-const CartGuard = ({ children }) => {
-  const cartItems = useSelector(selectCartItems);
-  return cartItems.length > 0 ? children : <Navigate to="/cart" replace />;
-};
-
-function AppWrapper() {
-  return (
-    <Router>
-      <App />
-    </Router>
-  );
-}
 
 function App() {
-  const location = useLocation();
-  const [darkMode, setDarkMode] = useState(false);
-
-  
-  const AuthGuard = ({ children }) => {
-    const isAuthenticated = localStorage.getItem('isAuthenticated');
-    return isAuthenticated ? children : <Navigate to="/login" replace />;
-  };
-
-  // Initialize analytics and theme
-  useRouteAnalytics();
-  
-  useEffect(() => {
-    document.body.classList.toggle('dark-mode', darkMode);
-  }, [darkMode]);
-
   return (
-    <div className={`app ${darkMode ? 'dark-theme' : ''}`}>
-      <button 
-        onClick={() => setDarkMode(!darkMode)}
-        className="theme-toggle"
-      >
-        {darkMode ? '☀️ Light' : '🌙 Dark'}
-      </button>
-      
-      <Header />
-      
-      <Suspense fallback={<LoadingSpinner fullPage />}>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<ProductList />} />
-          <Route path="/products/:id" element={<ProductDetail />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/checkout"
-            element={
-              <CartGuard>
-                <AuthGuard>
-                  <Checkout />
-                </AuthGuard>
-              </CartGuard>
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
-      
-      <ScrollToTop />
-    </div>
+    <Suspense fallback={<LoadingSpinner />}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<ProductList />} />
+        <Route path="/products/:id" element={<ProductDetail />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Suspense>
   );
 }
 
-export default AppWrapper;
+export default App;
