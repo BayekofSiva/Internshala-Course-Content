@@ -1,0 +1,24 @@
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 24px;
+  border-radius: 4px;
+  z-index: 1000;
+  max-width: 300px;
+}
+
+.toast.info {
+  background: var(--teal-500);
+  color: white;
+}
+
+.toast.error {
+  background: var(--accent-pink);
+  color: white;
+}
+
+.toast.success {
+  background: var(--teal-700);
+  color: white;
+}

@@ -24,6 +24,8 @@ const ProductList = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
+  if (status === 'loading') return <ProductSkeleton count={6} />;
+  if (status === 'failed') return <div>Error loading products</div>;
   const handleSearchChange = (e) => {
     dispatch(setSearchTerm(e.target.value));
   };
@@ -37,18 +39,9 @@ const ProductList = () => {
 
   return (
     <div className="product-list">
-      <input
-        type="text"
-        placeholder="Search products..."
-        value={searchTerm}
-        onChange={handleSearchChange}
-        className="search-input"
-      />
-      <div className="products-grid">
-        {filteredProducts.map(product => (
-          <ProductItem key={product.id} product={product} />
-        ))}
-      </div>
+      {products.map(product => (
+        <ProductItem key={product.id} product={product} />
+      ))}
     </div>
   );
 };
