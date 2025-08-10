@@ -4,6 +4,7 @@ import Header from './components/Header.jsx'
 import Home from './pages/Home.jsx'
 import NotFound from './pages/NotFound.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
+import Footer from './components/Footer.jsx'
 
 const ProductDetail = lazy(() => import('./pages/ProductDetail.jsx'))
 const Cart = lazy(() => import('./pages/Cart.jsx'))
@@ -25,7 +26,8 @@ export default function App() {
             </Routes>
           </Suspense>
         </ErrorBoundary>
-      </main>
+      </main>   
+      <Footer />   
     </div>
   )
 }
