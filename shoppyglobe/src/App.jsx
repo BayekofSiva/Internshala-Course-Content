@@ -1,35 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { Suspense, lazy } from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Header from './components/Header.jsx'
+import Home from './pages/Home.jsx'
+import NotFound from './pages/NotFound.jsx'
+import ErrorBoundary from './components/ErrorBoundary.jsx'
 
-function App() {
-  const [count, setCount] = useState(0)
+const ProductDetail = lazy(() => import('./pages/ProductDetail.jsx'))
+const Cart = lazy(() => import('./pages/Cart.jsx'))
+const Checkout = lazy(() => import('./pages/Checkout.jsx'))
 
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="app-shell">
+      <Header />
+      <main className="container">
+        <ErrorBoundary>
+          <Suspense fallback={<div className="loader">Loading awesomeness…</div>}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </ErrorBoundary>
+      </main>
+    </div>
   )
 }
-
-export default App

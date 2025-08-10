@@ -1,0 +1,135 @@
+:root {
+  --bg: #f8ffff;
+  --text: #0f2d2e;
+  --muted: #5b7a7a;
+  --card: #ffffff;
+  --teal: #0fb9b1;
+  --turquoise: #00cec9;
+  --accent: #14b8a6; /* teal-500 vibes */
+  --border: #d8f3f3;
+  --shadow: 0 10px 20px rgba(0,0,0,0.06);
+  --radius: 16px;
+  --transition: 200ms cubic-bezier(.2,.8,.2,1);
+}
+
+:root[data-theme="dark"] {
+  --bg: #0b1416;
+  --text: #e7fbfb;
+  --muted: #95bcbc;
+  --card: #0f1b1d;
+  --teal: #12d3cb;
+  --turquoise: #06d6d1;
+  --accent: #2dd4bf;
+  --border: #113738;
+  --shadow: 0 10px 24px rgba(0,0,0,0.35);
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  background: radial-gradient(1200px 800px at 100% -20%, color-mix(in srgb, var(--turquoise), transparent 85%), transparent),
+              linear-gradient(180deg, color-mix(in srgb, var(--teal), transparent 92%), transparent 40%),
+              var(--bg);
+  color: var(--text);
+  transition: background var(--transition), color var(--transition);
+}
+
+.container { width: min(1100px, 92%); margin: 24px auto; }
+
+.app-shell { min-height: 100dvh; }
+
+.header {
+  position: sticky; top: 0; z-index: 10;
+  backdrop-filter: saturate(1.2) blur(6px);
+  background: color-mix(in srgb, var(--bg), transparent 10%);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+  gap: 12px; padding: 14px 0;
+}
+
+.brand {
+  display: inline-flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: .3px;
+  color: var(--text); text-decoration: none; font-size: 1.1rem;
+}
+.brand-badge {
+  display: inline-grid; place-items: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal), var(--turquoise));
+  color: white; box-shadow: var(--shadow);
+  transform: translateZ(0);
+}
+
+.nav-links {
+  display: inline-flex; gap: 10px; align-items: center; justify-content: center;
+}
+.link {
+  color: var(--text); text-decoration: none; padding: 8px 12px; border-radius: 12px;
+  transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
+}
+.link:hover {
+  background: color-mix(in srgb, var(--accent), transparent 80%);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.actions { display: inline-flex; justify-content: end; gap: 10px; align-items: center; }
+
+.input {
+  width: 280px; max-width: 46vw;
+  padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border);
+  background: var(--card); color: var(--text);
+  outline: none; transition: border var(--transition), box-shadow var(--transition);
+}
+.input:focus {
+  border-color: color-mix(in srgb, var(--accent), white 60%);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent), transparent 90%);
+}
+
+.btn {
+  border: 0; padding: 10px 14px; border-radius: 12px; cursor: pointer; font-weight: 600;
+  background: linear-gradient(135deg, var(--teal), var(--turquoise));
+  color: white; transition: transform var(--transition), filter var(--transition), box-shadow var(--transition);
+  box-shadow: var(--shadow);
+}
+.btn:hover { transform: translateY(-1.5px) scale(1.02); filter: saturate(1.1); }
+.btn.ghost {
+  background: transparent; color: var(--text); border: 1px solid var(--border);
+}
+.btn.ghost:hover {
+  background: color-mix(in srgb, var(--accent), transparent 85%);
+  border-color: color-mix(in srgb, var(--accent), white 60%);
+}
+
+.grid {
+  display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); transition: transform var(--transition), border var(--transition), box-shadow var(--transition);
+  overflow: hidden;
+}
+.card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent), white 70%); }
+
+.product-img {
+  width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block;
+}
+
+.badge {
+  display: inline-block; padding: 4px 10px; border-radius: 999px;
+  background: color-mix(in srgb, var(--accent), transparent 80%);
+  color: var(--text); font-size: 12px; margin-bottom: 6px;
+}
+
+.price { font-weight: 800; color: var(--accent); }
+
+.row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+.loader {
+  padding: 40px; text-align: center; opacity: .8;
+}
