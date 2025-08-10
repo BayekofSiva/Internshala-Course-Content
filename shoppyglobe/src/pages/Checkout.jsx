@@ -5,7 +5,7 @@ export default function Checkout() {
     <div className="card" style={{padding: 18}}>
       <h2>Checkout</h2>
       <p>We accept all major forms of payment, including imaginary money (kidding). Hook up your gateway here.</p>
-      <p style={{opacity:.8}}>This page is a placeholder for the flow you’ll integrate next.</p>
+      <p style={{opacity:.8}}>This page is a placeholder for the flow I'll integrate next.</p>
     </div>
   )
 }
