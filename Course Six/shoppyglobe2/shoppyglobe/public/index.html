@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShoppyGlobe</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>ShoppyGlobe</h1>
+    <div class="header-controls">
+      <button id="cart-button" class="cart-btn hidden" onclick="toggleCart()">Cart</button>
+      <div class="theme-toggle">
+        <label class="switch">
+          <input type="checkbox" id="theme-checkbox" />
+          <span class="slider"></span>
+        </label>
+        <span id="theme-label">Light</span>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section id="auth-section">
+      <div id="register-form">
+        <h2>Register</h2>
+        <input type="text" id="reg-username" placeholder="Username" />
+        <input type="password" id="reg-password" placeholder="Password" />
+        <button onclick="registerUser()">Register</button>
+      </div>
+      <div id="login-form">
+        <h2>Login</h2>
+        <input type="text" id="login-username" placeholder="Username" />
+        <input type="password" id="login-password" placeholder="Password" />
+        <button onclick="loginUser()">Login</button>
+      </div>
+    </section>
+    <section id="products-section" class="hidden">
+      <h2>Products</h2>
+      <div id="products-container"></div>
+    </section>
+    <section id="cart-section" class="hidden">
+      <h2>Your Cart</h2>
+      <div id="cart-container"></div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

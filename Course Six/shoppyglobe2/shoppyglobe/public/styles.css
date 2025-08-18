@@ -1,0 +1,266 @@
+/*
+ * Core style variables.
+ * These CSS custom properties define the colour palette for both
+ * light and dark themes.  When the `dark` class is applied to the
+ * body element, the variables are overridden to provide a dark mode.
+ */
+:root {
+  --primary: #008080;
+  --secondary: #40e0d0;
+  --background: #f7f8fa;
+  --surface: #ffffff;
+  --text: #333333;
+  --card-background: #ffffff;
+  --button-background: var(--primary);
+  --button-text: #ffffff;
+}
+
+body.dark {
+  --background: #121212;
+  --surface: #1f1f1f;
+  --text: #e0e0e0;
+  --card-background: #1f1f1f;
+  --button-background: #40e0d0;
+  --button-text: #000000;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text);
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--primary);
+  color: #ffffff;
+}
+
+header h1 {
+  margin: 0;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Theme toggle switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--secondary);
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: #ffffff;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.switch input:checked + .slider {
+  background-color: var(--primary);
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+#theme-label {
+  font-size: 0.9rem;
+}
+
+.cart-btn {
+  padding: 0.5rem 1rem;
+  background-color: var(--secondary);
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cart-btn:hover {
+  opacity: 0.9;
+}
+
+.hidden {
+  display: none;
+}
+
+main {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Authentication section */
+#auth-section {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+#auth-section div {
+  background: var(--card-background);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#auth-section h2 {
+  margin-top: 0;
+}
+
+#auth-section input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#auth-section button {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: var(--button-background);
+  color: var(--button-text);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#auth-section button:hover {
+  opacity: 0.9;
+}
+
+/* Products grid */
+#products-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.product-card {
+  background: var(--card-background);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.product-card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.product-card p {
+  flex-grow: 1;
+  margin-bottom: 0.5rem;
+}
+
+.product-card .price {
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+.product-card button {
+  padding: 0.5rem;
+  background-color: var(--button-background);
+  color: var(--button-text);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.product-card button:hover {
+  opacity: 0.9;
+}
+
+/* Cart section */
+#cart-container {
+  margin-top: 1rem;
+}
+
+.cart-item {
+  background: var(--card-background);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.cart-item div:first-child {
+  flex: 1;
+  margin-right: 1rem;
+}
+
+.cart-item input {
+  width: 60px;
+  padding: 0.3rem;
+  margin-right: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.cart-item button {
+  padding: 0.3rem 0.5rem;
+  background-color: var(--primary);
+  color: var(--button-text);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.cart-item button.delete-btn {
+  background-color: #e74c3c;
+  color: #ffffff;
+}
+
+.cart-item button:hover {
+  opacity: 0.9;
+}

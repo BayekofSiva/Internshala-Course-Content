@@ -1,0 +1,302 @@
+[
+  {
+    "name": "Smartphone X",
+    "price": 799,
+    "description": "A flagship smartphone with an edge‑to‑edge display and powerful processor.",
+    "stock": 50
+  },
+  {
+    "name": "Laptop Pro 15",
+    "price": 1299,
+    "description": "High‑performance 15‑inch laptop ideal for professionals and creators.",
+    "stock": 40
+  },
+  {
+    "name": "Wireless Headphones",
+    "price": 199,
+    "description": "Over‑ear headphones with active noise cancellation and rich sound.",
+    "stock": 100
+  },
+  {
+    "name": "Smart Watch Series 6",
+    "price": 399,
+    "description": "Latest generation smart watch with fitness tracking and heart rate monitor.",
+    "stock": 75
+  },
+  {
+    "name": "Gaming Laptop",
+    "price": 1599,
+    "description": "Powerful gaming laptop with high refresh rate display and dedicated GPU.",
+    "stock": 30
+  },
+  {
+    "name": "Mechanical Keyboard",
+    "price": 149,
+    "description": "RGB mechanical keyboard with tactile switches and ergonomic design.",
+    "stock": 85
+  },
+  {
+    "name": "4K Monitor",
+    "price": 349,
+    "description": "27‑inch 4K UHD monitor with vibrant colors and HDR support.",
+    "stock": 60
+  },
+  {
+    "name": "Bluetooth Speaker",
+    "price": 99,
+    "description": "Portable Bluetooth speaker delivering crisp sound and deep bass.",
+    "stock": 120
+  },
+  {
+    "name": "Noise Cancelling Earbuds",
+    "price": 249,
+    "description": "True wireless earbuds with adaptive noise cancellation and long battery life.",
+    "stock": 90
+  },
+  {
+    "name": "Tablet Plus",
+    "price": 499,
+    "description": "10‑inch tablet with high‑resolution display and expandable storage.",
+    "stock": 70
+  },
+  {
+    "name": "Gaming Mouse",
+    "price": 79,
+    "description": "Ergonomic gaming mouse with adjustable DPI and customizable buttons.",
+    "stock": 95
+  },
+  {
+    "name": "VR Headset",
+    "price": 399,
+    "description": "Immersive virtual reality headset compatible with PC and console.",
+    "stock": 35
+  },
+  {
+    "name": "Smart Home Hub",
+    "price": 129,
+    "description": "Central hub to control all your smart home devices via voice or app.",
+    "stock": 80
+  },
+  {
+    "name": "Portable SSD 1TB",
+    "price": 169,
+    "description": "High‑speed portable solid state drive with 1TB of storage.",
+    "stock": 150
+  },
+  {
+    "name": "Wireless Charger",
+    "price": 39,
+    "description": "Fast wireless charging pad compatible with smartphones and earbuds.",
+    "stock": 200
+  },
+  {
+    "name": "Smart TV 55‑inch",
+    "price": 699,
+    "description": "55‑inch 4K smart television with streaming apps built in.",
+    "stock": 45
+  },
+  {
+    "name": "Drone with Camera",
+    "price": 499,
+    "description": "Quadcopter drone featuring 4K camera and 3‑axis gimbal stabilization.",
+    "stock": 25
+  },
+  {
+    "name": "Action Camera",
+    "price": 299,
+    "description": "Compact action camera capable of 4K recording and waterproof housing.",
+    "stock": 55
+  },
+  {
+    "name": "Graphics Tablet",
+    "price": 249,
+    "description": "Digital drawing tablet with pen pressure sensitivity for artists.",
+    "stock": 65
+  },
+  {
+    "name": "Gaming Console",
+    "price": 499,
+    "description": "Next‑generation gaming console with ray tracing and SSD storage.",
+    "stock": 40
+  },
+  {
+    "name": "Robot Vacuum",
+    "price": 399,
+    "description": "Smart robot vacuum cleaner with scheduling and automatic docking.",
+    "stock": 50
+  },
+  {
+    "name": "Smart Thermostat",
+    "price": 229,
+    "description": "Wi‑Fi smart thermostat that learns your schedule and saves energy.",
+    "stock": 70
+  },
+  {
+    "name": "Home Security Camera",
+    "price": 149,
+    "description": "Indoor/outdoor security camera with motion detection and night vision.",
+    "stock": 110
+  },
+  {
+    "name": "Fitness Tracker",
+    "price": 99,
+    "description": "Water‑resistant fitness tracker monitoring steps, sleep and heart rate.",
+    "stock": 130
+  },
+  {
+    "name": "3D Printer",
+    "price": 599,
+    "description": "Desktop 3D printer capable of printing PLA and ABS materials.",
+    "stock": 20
+  },
+  {
+    "name": "Mini Projector",
+    "price": 259,
+    "description": "Portable mini projector supporting 1080p resolution for movies and presentations.",
+    "stock": 40
+  },
+  {
+    "name": "Portable Power Bank",
+    "price": 49,
+    "description": "10,000 mAh power bank with USB‑C and Quick Charge support.",
+    "stock": 180
+  },
+  {
+    "name": "Smart Light Bulbs (pack of 4)",
+    "price": 89,
+    "description": "Set of four smart LED bulbs with adjustable color temperature and app control.",
+    "stock": 90
+  },
+  {
+    "name": "Noise Cancelling Headphones",
+    "price": 299,
+    "description": "Premium over‑ear headphones with industry‑leading noise cancellation.",
+    "stock": 55
+  },
+  {
+    "name": "Smart Door Lock",
+    "price": 199,
+    "description": "Keyless smart lock with fingerprint reader and smartphone control.",
+    "stock": 40
+  },
+  {
+    "name": "E‑Reader",
+    "price": 129,
+    "description": "Lightweight e‑ink reader with adjustable backlight and weeks of battery life.",
+    "stock": 100
+  },
+  {
+    "name": "Wireless Router",
+    "price": 179,
+    "description": "Dual‑band Wi‑Fi 6 router delivering high speeds and wide coverage.",
+    "stock": 60
+  },
+  {
+    "name": "External Hard Drive 2TB",
+    "price": 89,
+    "description": "Portable external hard drive offering 2TB of reliable storage.",
+    "stock": 140
+  },
+  {
+    "name": "Laptop Stand",
+    "price": 39,
+    "description": "Adjustable aluminum laptop stand improving ergonomics and cooling.",
+    "stock": 120
+  },
+  {
+    "name": "Webcam 1080p",
+    "price": 69,
+    "description": "HD webcam with built‑in microphone for clear video calls and streaming.",
+    "stock": 95
+  },
+  {
+    "name": "USB‑C Hub",
+    "price": 59,
+    "description": "Multipurpose USB‑C hub with HDMI, USB 3.0 and SD card reader ports.",
+    "stock": 125
+  },
+  {
+    "name": "Smartphone Gimbal",
+    "price": 119,
+    "description": "Handheld gimbal stabilizer for capturing smooth smartphone videos.",
+    "stock": 50
+  },
+  {
+    "name": "Wireless Gaming Controller",
+    "price": 79,
+    "description": "Ergonomic wireless controller compatible with PC and console.",
+    "stock": 90
+  },
+  {
+    "name": "Computer Speakers",
+    "price": 89,
+    "description": "2.1 channel computer speakers delivering rich stereo sound and bass.",
+    "stock": 85
+  },
+  {
+    "name": "Smart Glasses",
+    "price": 249,
+    "description": "Augmented reality glasses with heads‑up display and built‑in audio.",
+    "stock": 25
+  },
+  {
+    "name": "Microphone for Streaming",
+    "price": 149,
+    "description": "USB condenser microphone offering studio‑quality audio for streaming and podcasts.",
+    "stock": 70
+  },
+  {
+    "name": "HDMI Capture Card",
+    "price": 129,
+    "description": "External capture card for recording and streaming gameplay in 1080p.",
+    "stock": 60
+  },
+  {
+    "name": "Smart Coffee Maker",
+    "price": 179,
+    "description": "Wi‑Fi connected coffee maker that can be controlled remotely via app.",
+    "stock": 40
+  },
+  {
+    "name": "Wi‑Fi Range Extender",
+    "price": 59,
+    "description": "Boosts your existing Wi‑Fi network to eliminate dead zones around the home.",
+    "stock": 90
+  },
+  {
+    "name": "Electric Scooter",
+    "price": 499,
+    "description": "Foldable electric scooter with long‑range battery and LED display.",
+    "stock": 25
+  },
+  {
+    "name": "Bluetooth Tracker",
+    "price": 29,
+    "description": "Compact tracker to help you locate keys, bags or other belongings.",
+    "stock": 150
+  },
+  {
+    "name": "Automated Plant Watering System",
+    "price": 89,
+    "description": "Smart irrigation system that waters your plants on a schedule.",
+    "stock": 35
+  },
+  {
+    "name": "Wireless Presentation Clicker",
+    "price": 49,
+    "description": "Presentation remote with laser pointer and slide control buttons.",
+    "stock": 100
+  },
+  {
+    "name": "Smart Backpack with USB Charging",
+    "price": 119,
+    "description": "Water‑resistant backpack featuring integrated USB charging port and compartments.",
+    "stock": 60
+  },
+  {
+    "name": "AI‑Powered Translation Device",
+    "price": 199,
+    "description": "Pocket‑sized device capable of translating conversations in real time.",
+    "stock": 30
+  }
+]
