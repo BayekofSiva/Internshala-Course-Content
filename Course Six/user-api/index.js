@@ -28,6 +28,14 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ error: err.message || 'Internal Server Error' });
 });
 
+app.get('/', (req, res) => {
+  res.type('html').send(`
+    <h1>User API</h1>
+    <p>Try <a href="/users">/users</a></p>
+  `);
+});
+
+
 // Start the server and listen on the defined port
 app.listen(port, () => {
   console.log(`User API server listening on port ${port}`);
