@@ -8,13 +8,18 @@ const router = express.Router();
 // In‑memory array of users. A real application would use a database instead,
 // but the assignment explicitly requires storing data in memory.
 let users = [
-  {
-    id: '1',
-    firstName: 'Anshika',
-    lastName: 'Agarwal',
-    hobby: 'Teaching'
-  }
+  { id: "1", firstName: "Anshika", lastName: "Agarwal", hobby: "Teaching" },
+  { id: "2", firstName: "Rahul", lastName: "Mehta", hobby: "Cricket" },
+  { id: "3", firstName: "Priya", lastName: "Sharma", hobby: "Painting" },
+  { id: "4", firstName: "Vikram", lastName: "Singh", hobby: "Cycling" },
+  { id: "5", firstName: "Sneha", lastName: "Patel", hobby: "Cooking" },
+  { id: "6", firstName: "Aman", lastName: "Kumar", hobby: "Photography" },
+  { id: "7", firstName: "Kavita", lastName: "Rao", hobby: "Gardening" },
+  { id: "8", firstName: "Rohit", lastName: "Joshi", hobby: "Guitar" },
+  { id: "9", firstName: "Meera", lastName: "Iyer", hobby: "Traveling" },
+  { id: "10", firstName: "Arjun", lastName: "Verma", hobby: "Chess" }
 ];
+
 
 // Helper function to locate a user by ID
 function findUserById(id) {
