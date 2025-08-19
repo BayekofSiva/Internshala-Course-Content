@@ -1,3 +1,7 @@
+/*
+ * Common Framer Motion animation variants.  These variants are used by
+ * multiple components to ensure consistent motion throughout the app.
+ */
 export const fadeIn = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.3 } }
