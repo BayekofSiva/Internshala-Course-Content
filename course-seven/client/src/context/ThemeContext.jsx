@@ -1,10 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { lightTheme, darkTheme } from '../styles/theme';
 
-/**
- * ThemeContext provides the current colour palette and a toggle method.
- * It updates CSS variables on the `:root` element whenever the theme changes.
- */
 export const ThemeContext = createContext({});
 
 export const ThemeProvider = ({ children }) => {

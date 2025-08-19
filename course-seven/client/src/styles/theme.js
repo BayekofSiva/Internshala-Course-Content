@@ -1,8 +1,3 @@
-/*
- * Colour palettes for light and dark modes.  These objects are used by
- * ThemeContext to set CSS variables on the root element.  Additional
- * variables can be added here if needed.
- */
 export const lightTheme = {
   'bg': '#ffffff',
   'surface': '#f5f5f5',

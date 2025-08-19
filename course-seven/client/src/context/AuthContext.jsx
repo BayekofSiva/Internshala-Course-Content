@@ -1,14 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import axios from '../api/axios';
 
-/**
- * AuthContext manages the authentication state of the application.  It exposes
- * the current user object and helper methods to login, register and logout.
- *
- * The context checks the session on mount by calling `/api/auth/me`.  If a
- * session exists the user details are loaded into state.  All API requests
- * include `withCredentials: true` so that the session cookie is sent.
- */
+
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
