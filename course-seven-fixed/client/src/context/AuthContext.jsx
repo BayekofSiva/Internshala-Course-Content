@@ -59,6 +59,12 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const API = axios.create({
+  baseURL: "http://localhost:5000/api",   // ✅ backend port
+  withCredentials: true,
+});
+
+
   return (
     <AuthContext.Provider value={{ user, loading, login, register, logout }}>
       {children}
