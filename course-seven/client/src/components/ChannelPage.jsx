@@ -4,11 +4,6 @@ import axios from '../api/axios';
 import VideoCard from './VideoCard';
 import { AuthContext } from '../context/AuthContext';
 
-/**
- * ChannelPage displays a channel’s information and its list of videos.  If the
- * current user is the owner of the channel they will see a button to upload
- * new videos.
- */
 const ChannelPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();

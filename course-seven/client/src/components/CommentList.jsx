@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../api/axios';
 
-/**
- * CommentList manages the fetching and display of comments for a video.  It
- * renders a form for adding new comments (only visible when `currentUser`
- * prop is present) and provides editing/deleting actions for comments
- * created by the current user.
- */
 const CommentList = ({ videoId, currentUser }) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
