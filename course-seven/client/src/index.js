@@ -3,18 +3,26 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
-import { ThemeProvider } from './context/ThemeContext';
-import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
 
-// React 18 root
+// Plain JavaScript version
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <AuthProvider>
-        <ThemeProvider>
-          <App />
-        </ThemeProvider>
-      </AuthProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  React.createElement(
+    React.StrictMode,
+    null,
+    React.createElement(
+      BrowserRouter,
+      null,
+      React.createElement(
+        AuthProvider,
+        null,
+        React.createElement(
+          ThemeProvider,
+          null,
+          React.createElement(App, null)
+        )
+      )
+    )
+  )
 );
