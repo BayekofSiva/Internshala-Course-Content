@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import VideoCard from './VideoCard';
 import { motion } from 'framer-motion';
+import API from '../api';
 
 const categories = [
   { key: 'all', label: 'All' },
@@ -30,7 +31,7 @@ const HomePage = () => {
     const fetchVideos = async () => {
       try {
         setLoading(true);
-        const res = await axios.get('/api/videos', {
+        const res = await API.get('/videos', {
           params: {
             category: selectedCat !== 'all' ? selectedCat : undefined,
             search: searchQuery || undefined

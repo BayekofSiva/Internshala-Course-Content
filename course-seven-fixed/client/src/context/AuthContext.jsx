@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import axios from '../api/axios';
+import API from '../api'; // Import the API instance if needed
 
 /**
  * AuthContext manages the authentication state of the application.  It exposes
@@ -19,7 +20,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchMe = async () => {
       try {
-        const res = await axios.get('/api/auth/me', { withCredentials: true });
+        const res = await API.get('/auth/me', { withCredentials: true });
         if (res.data) setUser(res.data);
       } catch (err) {
         // Not logged in
