@@ -44,7 +44,7 @@ app.get("/", (req, res) => {
 // Auth routes (example)
 import authRoutes from "./routes/auth.js";
 app.use("/api/auth", authRoutes);
-app.use("/api/auth", require("./routes/authRoutes"));
+// app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/videos", require("./routes/videoRoutes"));
 
 
