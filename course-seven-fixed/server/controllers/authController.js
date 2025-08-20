@@ -4,6 +4,12 @@ import User from "../models/User.js";
 export const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+    console.log("Incoming registration data:", req.body); // logging the incoming data
+
+    const existingUser = await User.find({ email });
+    if (existingUser) {
+        return res.status(400).json({ message: "User already exists" });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -14,10 +20,16 @@ export const register = async (req, res) => {
     });
 
     await newUser.save();
-    res.status(201).json({ id: newUser._id, username, email });
-  } catch (err) {
-    console.error("Register error:", err);
-    res.status(500).json({ message: "Server error" });
+        console.log("User registered successfully:", newUser); // logging successful registration
+
+    res.status(201).json({ 
+        _id: newUser._id, 
+        username: newUser.username, 
+        email: newUser.email, 
+    });
+  } catch (error) {
+    console.error("Register error:", error);  // logging the error
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
