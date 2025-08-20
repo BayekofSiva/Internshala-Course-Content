@@ -36,8 +36,8 @@ export const register = async (req, res) => {
     if (err.code === 11000) {
       return res.status(400).json({ message: "Username or Email already exists" });
     }
-    console.error("Registration error:", err.message, err);
-    res.status(500).json({ message: "Server error" });
+    console.error("Registration error:", err);
+    return res.status(500).json({ message: err.message }); // To show actual error message
   }
 };
 
