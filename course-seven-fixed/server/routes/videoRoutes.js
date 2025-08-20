@@ -1,7 +1,11 @@
+import express from 'express';
+import Video from '../models/Video';
+
 const express = require('express');
 const { isAuthenticated } = require('../middleware/auth');
 const Video = require('../models/Video');
 const Channel = require('../models/Channel');
+
 
 const router = express.Router();
 
