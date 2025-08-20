@@ -5,16 +5,19 @@ import jwt from "jsonwebtoken";
 export const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
-    console.log("Incoming registration data:", req.body); // logging the incoming data
+    console.log("Incoming registration data:", req.body);
 
-    const existingUser = await User.find({ email });
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-        return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ message: "User already exists" });
     }
 
+    // Hash password properly
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Create new user
     const newUser = new User({
       username,
       email,
@@ -22,19 +25,18 @@ export const register = async (req, res) => {
     });
 
     await newUser.save();
-        console.log("User registered successfully:", newUser); // logging successful registration
+    console.log("User registered successfully:", newUser);
 
-    res.status(201).json({ 
-        _id: newUser._id, 
-        username: newUser.username, 
-        email: newUser.email, 
+    res.status(201).json({
+      _id: newUser._id,
+      username: newUser.username,
+      email: newUser.email,
     });
   } catch (err) {
     if (err.code === 11000) {
-      // duplicating key error
       return res.status(400).json({ message: "Username or Email already exists" });
     }
-    console.error("Registration error:", err);
+    console.error("Registration error:", err.message, err);
     res.status(500).json({ message: "Server error" });
   }
 };
