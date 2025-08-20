@@ -1,5 +1,6 @@
-import bcrypt from "bcrypt";
 import User from "../models/User.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
   try {
@@ -11,6 +12,7 @@ export const register = async (req, res) => {
         return res.status(400).json({ message: "User already exists" });
     }
 
+    const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
@@ -27,9 +29,13 @@ export const register = async (req, res) => {
         username: newUser.username, 
         email: newUser.email, 
     });
-  } catch (error) {
-    console.error("Register error:", error);  // logging the error
-    res.status(500).json({ message: "Server error", error: error.message });
+  } catch (err) {
+    if (err.code === 11000) {
+      // duplicating key error
+      return res.status(400).json({ message: "Username or Email already exists" });
+    }
+    console.error("Registration error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
