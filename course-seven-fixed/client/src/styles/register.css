@@ -1,0 +1,76 @@
+/* Styles specific to the Register component.
+ * Form layout, inputs and buttons follow the theme colours and incorporate
+ * subtle animations on hover/focus inspired by overtake.gg.
+ */
+
+.register-container {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 2rem;
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: var(--bg);
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 0.6s ease both;
+}
+
+.register-title {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.register-error {
+  color: #e74c3c;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.register-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.register-form .form-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.register-form .form-input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--muted);
+  background-color: var(--surface);
+  color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.register-form .form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.25);
+}
+
+.primary-btn {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--primary);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.primary-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.primary-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

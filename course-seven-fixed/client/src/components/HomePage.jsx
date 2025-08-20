@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import axios from '../api/axios';
-import VideoCard from './VideoCard';
-import { motion } from 'framer-motion';
 import API from '../api';
+import VideoCard from './VideoCard';
+// Import global styles to apply video grid, buttons etc.
+import '../styles/global.css';
 
+/**
+ * HomePage fetches and displays a grid of videos.  Videos can be filtered
+ * by category (`cat` query parameter) and searched by title (`q` query
+ * parameter).  Inline styles and Framer Motion have been removed in favour
+ * of CSS classes with transitions and animations.
+ */
 const categories = [
   { key: 'all', label: 'All' },
   { key: 'education', label: 'Education' },
   { key: 'music', label: 'Music' },
   { key: 'gaming', label: 'Gaming' },
   { key: 'technology', label: 'Technology' },
-  { key: 'movies', label: 'Movies' }
+  { key: 'movies', label: 'Movies' },
 ];
 
-/**
- * HomePage fetches and displays a grid of videos.  Videos can be filtered by
- * category (`cat` query parameter) and searched by title (`q` query parameter).
- */
 const HomePage = () => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,9 +35,10 @@ const HomePage = () => {
         setLoading(true);
         const res = await API.get('/videos', {
           params: {
-            category: selectedCat !== 'all' ? selectedCat : undefined,
-            search: searchQuery || undefined
-          }
+            category:
+              selectedCat !== 'all' ? selectedCat : undefined,
+            search: searchQuery || undefined,
+          },
         });
         setVideos(res.data || []);
       } catch (err) {
@@ -44,11 +47,13 @@ const HomePage = () => {
           {
             _id: 'video01',
             title: 'Learn React in 30 Minutes',
-            thumbnailUrl: 'https://dummyimage.com/320x180/008080/ffffff&text=React+30min',
-            description: 'A quick tutorial to get started with React.',
+            thumbnailUrl:
+              'https://dummyimage.com/320x180/008080/ffffff&text=React+30min',
+            description:
+              'A quick tutorial to get started with React.',
             channelName: 'Code with John',
-            views: 15200
-          }
+            views: 15200,
+          },
         ]);
       } finally {
         setLoading(false);
@@ -65,21 +70,18 @@ const HomePage = () => {
   };
 
   return (
-    <div className="container" style={{ paddingTop: '1rem' }}>
+    <div className="container home-container">
       {/* Filter buttons */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' }}>
+      <div className="category-buttons">
         {categories.map((cat) => (
           <button
             key={cat.key}
             onClick={() => handleCategoryClick(cat.key)}
-            style={{
-              padding: '0.5rem 0.75rem',
-              borderRadius: '16px',
-              backgroundColor: selectedCat === cat.key ? 'var(--primary)' : 'var(--surface)',
-              color: selectedCat === cat.key ? 'white' : 'var(--text)',
-              border: `1px solid var(--primary)`,
-              transition: 'background-color 0.3s'
-            }}
+            className={`btn ${
+              selectedCat === cat.key
+                ? 'btn-primary'
+                : 'btn-secondary'
+            }`}
           >
             {cat.label}
           </button>
@@ -91,13 +93,7 @@ const HomePage = () => {
       ) : videos.length === 0 ? (
         <p>No videos found.</p>
       ) : (
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-            gap: '1rem'
-          }}
-        >
+        <div className="video-grid">
           {videos.map((video) => (
             <VideoCard key={video._id} video={video} />
           ))}

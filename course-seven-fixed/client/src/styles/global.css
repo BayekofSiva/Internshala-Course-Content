@@ -1,0 +1,123 @@
+/* Global styles and component classes.
+ * All styling has been moved from inline objects to CSS classes to simplify
+ * maintenance and allow for richer animations.  These classes utilise
+ * CSS variables (`--bg`, `--surface`, `--text`, `--primary`, etc.)
+ * that are provided by the ThemeContext so the theme still drives colours.
+ */
+
+/* Utility classes */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Button base */
+.btn {
+  padding: 0.5rem 0.75rem;
+  border-radius: 16px;
+  border: 1px solid var(--primary);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Primary (selected) button */
+.btn-primary {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+
+/* Secondary (unselected) button */
+.btn-secondary {
+  background-color: var(--surface);
+  color: var(--text);
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Category buttons container */
+.category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Video grid */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+/* Video card */
+.video-card {
+  cursor: pointer;
+  background-color: var(--surface);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* initial animation */
+  animation: fadeInUp 0.5s ease both;
+}
+
+.video-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+.video-card .thumbnail {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+}
+
+.video-card .thumbnail img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-card .info {
+  padding: 0.5rem 0.75rem;
+}
+
+.video-card .info h3 {
+  font-size: 0.95rem;
+  margin: 0 0 0.25rem 0;
+}
+
+.video-card .channel-name,
+.video-card .views {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Fade in/up animation used across components */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
