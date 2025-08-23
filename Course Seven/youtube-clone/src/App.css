@@ -1,42 +1,322 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* src/App.css */
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 1200px) {
+  .video-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .video-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+  
+  .content {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Add these styles to your existing CSS */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  height: 56px;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.hamburger {
+  margin-right: 24px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+}
+
+.hamburger:hover {
+  background-color: #f0f0f0;
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  display: flex;
+  align-items: center;
+  color: #ff0000;
+  font-weight: bold;
+  font-size: 20px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.logo i {
+  margin-right: 4px;
+}
+
+.header-center {
+  display: flex;
+  align-items: center;
+  flex: 0 1 728px;
+}
+
+.search-container {
+  display: flex;
+  width: 100%;
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px 16px;
+  border: 1px solid #ccc;
+  border-radius: 2px 0 0 2px;
+  font-size: 16px;
+}
+
+.search-button {
+  padding: 0 16px;
+  border: 1px solid #ccc;
+  border-left: none;
+  background-color: #f8f8f8;
+  border-radius: 0 2px 2px 0;
+  cursor: pointer;
+}
+
+.mic-button {
+  margin-left: 12px;
+  padding: 8px;
+  background-color: #f8f8f8;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-icon {
+  margin-left: 24px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+}
+
+.header-icon:hover {
+  background-color: #f0f0f0;
+}
+
+.sign-in {
+  display: flex;
+  align-items: center;
+  margin-left: 24px;
+  padding: 8px 16px;
+  border: 1px solid #065fd4;
+  color: #065fd4;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.sign-in:hover {
+  background-color: #def0ff;
+}
+
+.sign-in i {
+  margin-right: 6px;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: white;
+  padding: 12px 0;
+  overflow-y: auto;
+  height: calc(100vh - 56px);
+  position: sticky;
+  top: 56px;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 24px;
+  cursor: pointer;
+}
+
+.sidebar-item:hover {
+  background-color: #f0f0f0;
+}
+
+.sidebar-item.active {
+  background-color: #e5e5e5;
+}
+
+.sidebar-item i {
+  margin-right: 24px;
+  font-size: 18px;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background-color: #e5e5e5;
+  margin: 12px 0;
+}
+
+.sidebar-heading {
+  padding: 8px 24px;
+  font-size: 14px;
+  color: #606060;
+}
+
+.filter-bar {
+  display: flex;
+  overflow-x: auto;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.filter-item {
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border-radius: 16px;
+  margin-right: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.filter-item.active {
+  background-color: #0f0f0f;
+  color: white;
+}
+
+.video-card {
+  cursor: pointer;
+}
+
+.thumbnail {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  background-color: #e5e5e5;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.thumbnail img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.video-info {
+  display: flex;
+}
+
+.channel-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #e5e5e5;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.video-details h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.video-details p {
+  font-size: 14px;
+  color: #606060;
+  margin-bottom: 4px;
+}
+
+@media (max-width: 1200px) {
+  .sidebar {
+    width: 72px;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .sidebar-item span {
+    display: none;
+  }
+  
+  .sidebar-item i {
+    margin-right: 0;
+  }
+  
+  .sidebar-heading, .sidebar-divider {
+    display: none;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@media (max-width: 768px) {
+  .header-center {
+    flex: 0 1 400px;
+  }
+  
+  .mic-button {
+    display: none;
   }
 }
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+@media (max-width: 576px) {
+  .sidebar {
+    display: none;
+  }
+  
+  .header-center {
+    flex: 0 1 200px;
+  }
 }
