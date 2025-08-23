@@ -10,6 +10,45 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
+import VideoPlayer from './pages/VideoPlayer';
+import SearchResults from './pages/SearchResults';
+
+
+// Update the Routes component
+<Routes>
+  <Route path="/login" element={<Login />} />
+  <Route path="/register" element={<Register />} />
+  <Route path="/video/:videoId" element={
+    <ProtectedRoute>
+      <VideoPlayer />
+    </ProtectedRoute>
+  } />
+  <Route path="/" element={
+    <ProtectedRoute>
+      <div className="main-content">
+        <Sidebar isOpen={sidebarOpen} />
+        <div className="content">
+          <FilterBar />
+          <div className="video-grid">
+            {videos.map(video => (
+              <VideoCard key={video.id} video={video} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </ProtectedRoute>
+  } />
+  <Route path="/search" element={
+  <ProtectedRoute>
+    <div className="main-content">
+      <Sidebar isOpen={sidebarOpen} />
+      <div className="content">
+        <SearchResults />
+      </div>
+    </div>
+  </ProtectedRoute>
+} />
+</Routes>
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
