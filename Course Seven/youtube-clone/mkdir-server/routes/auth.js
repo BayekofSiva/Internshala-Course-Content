@@ -1,4 +1,3 @@
-// mkdir-server/routes/auth.js
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -9,13 +8,6 @@ const router = express.Router();
 // Register endpoint
 router.post('/register', async (req, res) => {
   try {
-    // Check if MongoDB is connected
-    if (mongoose.connection.readyState !== 1) {
-      return res.status(503).json({ 
-        message: 'Database not available. Please try again later.' 
-      });
-    }
-
     const { username, email, password } = req.body;
 
     // Check if user exists
@@ -68,13 +60,6 @@ router.post('/register', async (req, res) => {
 // Login endpoint
 router.post('/login', async (req, res) => {
   try {
-    // Check if MongoDB is connected
-    if (mongoose.connection.readyState !== 1) {
-      return res.status(503).json({ 
-        message: 'Database not available. Please try again later.' 
-      });
-    }
-
     const { email, password } = req.body;
 
     // Find user
@@ -118,13 +103,6 @@ router.get('/user', async (req, res) => {
     
     if (!token) {
       return res.status(401).json({ message: 'No token provided' });
-    }
-
-    // Check if MongoDB is connected
-    if (mongoose.connection.readyState !== 1) {
-      return res.status(503).json({ 
-        message: 'Database not available. Please try again later.' 
-      });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

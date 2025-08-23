@@ -1,20 +1,10 @@
 // Updated src/components/Header.jsx
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 
 const Header = ({ toggleSidebar }) => {
-  const [searchQuery, setSearchQuery] = useState('');
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery(''); // Clear search input after submission
-    }
-  };
 
   const handleAuthClick = () => {
     if (currentUser) {
@@ -37,18 +27,12 @@ const Header = ({ toggleSidebar }) => {
       </div>
       
       <div className="header-center">
-        <form className="search-container" onSubmit={handleSearch}>
-          <input 
-            type="text" 
-            className="search-input" 
-            placeholder="Search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <button type="submit" className="search-button">
+        <div className="search-container">
+          <input type="text" className="search-input" placeholder="Search" />
+          <button className="search-button">
             <i className="fas fa-search"></i>
           </button>
-        </form>
+        </div>
         <div className="mic-button">
           <i className="fas fa-microphone"></i>
         </div>
