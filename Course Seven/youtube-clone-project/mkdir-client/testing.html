@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouClone - YouTube Clone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #0f0f0f;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            height: 56px;
+            background-color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .hamburger {
+            margin-right: 24px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+        }
+
+        .hamburger:hover {
+            background-color: #f0f0f0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: #ff0000;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo i {
+            margin-right: 4px;
+        }
+
+        .header-center {
+            display: flex;
+            align-items: center;
+            flex: 0 1 728px;
+        }
+
+        .search-container {
+            display: flex;
+            width: 100%;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px 16px;
+            border: 1px solid #ccc;
+            border-radius: 2px 0 0 2px;
+            font-size: 16px;
+        }
+
+        .search-button {
+            padding: 0 16px;
+            border: 1px solid #ccc;
+            border-left: none;
+            background-color: #f8f8f8;
+            border-radius: 0 2px 2px 0;
+            cursor: pointer;
+        }
+
+        .mic-button {
+            margin-left: 12px;
+            padding: 8px;
+            background-color: #f8f8f8;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icon {
+            margin-left: 24px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+        }
+
+        .header-icon:hover {
+            background-color: #f0f0f0;
+        }
+
+        .sign-in {
+            display: flex;
+            align-items: center;
+            margin-left: 24px;
+            padding: 8px 16px;
+            border: 1px solid #065fd4;
+            color: #065fd4;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .sign-in:hover {
+            background-color: #def0ff;
+        }
+
+        .sign-in i {
+            margin-right: 6px;
+        }
+
+        /* Main Content Layout */
+        .main-content {
+            display: flex;
+            max-width: 100%;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 240px;
+            background-color: white;
+            padding: 12px 0;
+            overflow-y: auto;
+            height: calc(100vh - 56px);
+            position: sticky;
+            top: 56px;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 24px;
+            cursor: pointer;
+        }
+
+        .sidebar-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .sidebar-item.active {
+            background-color: #e5e5e5;
+        }
+
+        .sidebar-item i {
+            margin-right: 24px;
+            font-size: 18px;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background-color: #e5e5e5;
+            margin: 12px 0;
+        }
+
+        .sidebar-heading {
+            padding: 8px 24px;
+            font-size: 14px;
+            color: #606060;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 24px;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            overflow-x: auto;
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .filter-item {
+            padding: 8px 12px;
+            background-color: #f0f0f0;
+            border-radius: 16px;
+            margin-right: 12px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .filter-item.active {
+            background-color: #0f0f0f;
+            color: white;
+        }
+
+        /* Video Grid */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .video-card {
+            cursor: pointer;
+        }
+
+        .thumbnail {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background-color: #e5e5e5;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .thumbnail img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .video-info {
+            display: flex;
+        }
+
+        .channel-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #e5e5e5;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .video-details h3 {
+            font-size: 16px;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-details p {
+            font-size: 14px;
+            color: #606060;
+            margin-bottom: 4px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 72px;
+            }
+            
+            .sidebar-item span {
+                display: none;
+            }
+            
+            .sidebar-item i {
+                margin-right: 0;
+            }
+            
+            .sidebar-heading, .sidebar-divider {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .header-center {
+                flex: 0 1 400px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-center {
+                flex: 0 1 200px;
+            }
+            
+            .mic-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="logo">
+                <i class="fab fa-youtube"></i>
+                <span>YouClone</span>
+            </div>
+        </div>
+        
+        <div class="header-center">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search">
+                <button class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="mic-button">
+                <i class="fas fa-microphone"></i>
+            </div>
+        </div>
+        
+        <div class="header-right">
+            <div class="header-icon">
+                <i class="fas fa-video"></i>
+            </div>
+            <div class="header-icon">
+                <i class="fas fa-th"></i>
+            </div>
+            <div class="header-icon">
+                <i class="fas fa-bell"></i>
+            </div>
+            <div class="sign-in">
+                <i class="fas fa-user-circle"></i>
+                <span>SIGN IN</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-item active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-fire"></i>
+                <span>Trending</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-folder"></i>
+                <span>Subscriptions</span>
+            </div>
+            
+            <div class="sidebar-divider"></div>
+            
+            <div class="sidebar-item">
+                <i class="fas fa-photo-video"></i>
+                <span>Library</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-history"></i>
+                <span>History</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-clock"></i>
+                <span>Watch later</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-thumbs-up"></i>
+                <span>Liked videos</span>
+            </div>
+            
+            <div class="sidebar-divider"></div>
+            
+            <div class="sidebar-heading">SUBSCRIPTIONS</div>
+            <div class="sidebar-item">
+                <i class="fas fa-user-circle"></i>
+                <span>Tech Channel</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-user-circle"></i>
+                <span>Coding Tutorials</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-user-circle"></i>
+                <span>Music Videos</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-user-circle"></i>
+                <span>Gaming Channel</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-user-circle"></i>
+                <span>News Channel</span>
+            </div>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="content">
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-item active">All</div>
+                <div class="filter-item">Music</div>
+                <div class="filter-item">Gaming</div>
+                <div class="filter-item">Live</div>
+                <div class="filter-item">Coding</div>
+                <div class="filter-item">React</div>
+                <div class="filter-item">JavaScript</div>
+                <div class="filter-item">MERN Stack</div>
+                <div class="filter-item">Node.js</div>
+                <div class="filter-item">MongoDB</div>
+                <div class="filter-item">Recently uploaded</div>
+            </div>
+
+            <!-- Video Grid -->
+            <div class="video-grid">
+                <!-- Video Card 1 -->
+                <div class="video-card">
+                    <div class="thumbnail">
+                        <img src="https://i.ytimg.com/vi/7CqJlxBYj-M/maxresdefault.jpg" alt="React Tutorial">
+                        <div class="video-duration">14:30</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="channel-icon"></div>
+                        <div class="video-details">
+                            <h3>Learn React in 30 Minutes - Beginner's Tutorial</h3>
+                            <p>CodeWithJohn</p>
+                            <p>15K views • 2 days ago</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 2 -->
+                <div class="video-card">
+                    <div class="thumbnail">
+                        <img src="https://i.ytimg.com/vi/W6NZfCO5SIk/maxresdefault.jpg" alt="JavaScript Tutorial">
+                        <div class="video-duration">22:15</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="channel-icon"></div>
+                        <div class="video-details">
+                            <h3>JavaScript Basics for Beginners - Crash Course</h3>
+                            <p>WebDev Simplified</p>
+                            <p>42K views • 1 week ago</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 3 -->
+                <div class="video-card">
+                    <div class="thumbnail">
+                        <img src="https://i.ytimg.com/vi/1PnVor36_40/maxresdefault.jpg" alt="Node.js Tutorial">
+                        <div class="video-duration">18:07</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="channel-icon"></div>
+                        <div class="video-details">
+                            <h3>Node.js Tutorial for Beginners - Getting Started</h3>
+                            <p>The Net Ninja</p>
+                            <p>28K views • 3 weeks ago</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 4 -->
+                <div class="video-card">
+                    <div class="thumbnail">
+                        <img src="https://i.ytimg.com/vi/1u2qu-EmIRc/maxresdefault.jpg" alt="MongoDB Tutorial">
+                        <div class="video-duration">25:42</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="channel-icon"></div>
+                        <div class="video-details">
+                            <h3>MongoDB Crash Course 2023</h3>
+                            <p>Traversy Media</p>
+                            <p>35K views • 1 month ago</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 5 -->
+                <div class="video-card">
+                    <div class="thumbnail">
+                        <img src="https://i.ytimg.com/vi/RGKi6LSPDLU/maxresdefault.jpg" alt="Express.js Tutorial">
+                        <div class="video-duration">16:53</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="channel-icon"></div>
+                        <div class="video-details">
+                            <h3>Express.js Tutorial for Beginners</h3>
+                            <p>Programming with Mosh</p>
+                            <p>19K views • 5 days ago</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 6 -->
+                <div class="video-card">
+                    <div class="thumbnail">
+                        <img src="https://i.ytimg.com/vi/0fYi8SGA20k/maxresdefault.jpg" alt="MERN Stack Tutorial">
+                        <div class="video-duration">36:22</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="channel-icon"></div>
+                        <div class="video-details">
+                            <h3>Build a MERN Stack App - Full Tutorial</h3>
+                            <p>JavaScript Mastery</p>
+                            <p>52K views • 2 weeks ago</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 7 -->
+                <div class="video-card">
+                    <div class="thumbnail">
+                        <img src="https://i.ytimg.com/vi/HYv55DhgTuA/maxresdefault.jpg" alt="CSS Tutorial">
+                        <div class="video-duration">29:18</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="channel-icon"></div>
+                        <div class="video-details">
+                            <h3>CSS Grid & Flexbox for Responsive Layouts</h3>
+                            <p>Web Dev Simplified</p>
+                            <p>31K views • 3 days ago</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 8 -->
+                <div class="video-card">
+                    <div class="thumbnail">
+                        <img src="https://i.ytimg.com/vi/riDzcEQbX6k/maxresdefault.jpg" alt="API Tutorial">
+                        <div class="video-duration">21:09</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="channel-icon"></div>
+                        <div class="video-details">
+                            <h3>REST API Concepts and Examples</h3>
+                            <p>WebConcepts</p>
+                            <p>27K views • 4 weeks ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Toggle sidebar on hamburger menu click
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar.style.display === 'none') {
+                sidebar.style.display = 'block';
+            } else {
+                sidebar.style.display = 'none';
+            }
+        });
+
+        // Add active class to filter items on click
+        const filterItems = document.querySelectorAll('.filter-item');
+        filterItems.forEach(item => {
+            item.addEventListener('click', function() {
+                filterItems.forEach(item => item.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Add active class to sidebar items on click
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
+        sidebarItems.forEach(item => {
+            item.addEventListener('click', function() {
+                sidebarItems.forEach(item => item.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

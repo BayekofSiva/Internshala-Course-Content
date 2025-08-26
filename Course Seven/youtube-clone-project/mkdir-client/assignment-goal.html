@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Clone - MERN Stack Project</title>
+  <style>
+  :root {
+  --bg-color: #f9f9f9;
+  --text-color: #333;
+  --header-bg-start: #ff0000;
+  --header-bg-end: #cc0000;
+  --header-text-color: white;
+  --container-bg: white;
+  --accent-color: #ff0000;
+  --task-priority-high: #ff5252;
+  --task-priority-medium: #ffb142;
+  --task-priority-low: #2ed573;
+  --progress-bg: #e0e0e0;
+  --progress-fill-start: #ff0000;
+  --progress-fill-end: #cc0000;
+  --progress-text-color: white;
+  --footer-text-color: #777;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --transition-duration: 0.3s;
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+ 
+
+  body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  padding: 20px;
+  transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
+  }
+ 
+
+  .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  }
+ 
+
+  header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: linear-gradient(to right, var(--header-bg-start), var(--header-bg-end));
+  color: var(--header-text-color);
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  position: relative;
+  }
+ 
+
+  h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  transition: color var(--transition-duration) ease;
+  }
+ 
+
+  h2 {
+  color: var(--accent-color);
+  margin: 25px 0 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--accent-color);
+  transition: color var(--transition-duration) ease, border-color var(--transition-duration) ease;
+  }
+ 
+
+  h3 {
+  margin: 20px 0 10px;
+  color: var(--text-color);
+  transition: color var(--transition-duration) ease;
+  }
+ 
+
+  .project-overview {
+  background-color: var(--container-bg);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  margin-bottom: 30px;
+  transition: background-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+  }
+ 
+
+  .tasks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+  }
+ 
+
+  .task-card {
+  background-color: var(--container-bg);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: var(--box-shadow);
+  transition: transform 0.3s ease, background-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+  }
+ 
+
+  .task-card:hover {
+  transform: translateY(-5px);
+  }
+ 
+
+  .task-card h3 {
+  color: var(--accent-color);
+  margin-bottom: 15px;
+  }
+ 
+
+  .priority {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+  color: var(--header-text-color);
+  }
+ 
+
+  .high {
+  background-color: var(--task-priority-high);
+  }
+ 
+
+  .medium {
+  background-color: var(--task-priority-medium);
+  }
+ 
+
+  .low {
+  background-color: var(--task-priority-low);
+  }
+ 
+
+  ul {
+  list-style-type: none;
+  padding-left: 20px;
+  }
+ 
+
+  li {
+  margin-bottom: 8px;
+  position: relative;
+  }
+ 
+
+  li:before {
+  content: "•";
+  color: var(--accent-color);
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+  transition: color var(--transition-duration) ease;
+  }
+ 
+
+  .progress-container {
+  background-color: var(--container-bg);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  margin: 30px 0;
+  transition: background-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+  }
+ 
+
+  .progress-bar {
+  height: 30px;
+  background-color: var(--progress-bg);
+  border-radius: 15px;
+  margin: 20px 0;
+  overflow: hidden;
+  transition: background-color var(--transition-duration) ease;
+  }
+ 
+
+  .progress {
+  height: 100%;
+  background: linear-gradient(to right, var(--progress-fill-start), var(--progress-fill-end));
+  border-radius: 15px;
+  width: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--progress-text-color);
+  font-weight: bold;
+  transition: width 0.5s ease, background var(--transition-duration) ease;
+  }
+ 
+
+  .next-steps {
+  background-color: var(--container-bg);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  transition: background-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+  }
+ 
+
+  .tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 20px 0;
+  }
+ 
+
+  .tech-item {
+  background: linear-gradient(to right, var(--header-bg-start), var(--header-bg-end));
+  color: var(--header-text-color);
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  transition: background var(--transition-duration) ease, color var(--transition-duration) ease;
+  }
+ 
+
+  footer {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  color: var(--footer-text-color);
+  transition: color var(--transition-duration) ease;
+  }
+ 
+
+  @media (max-width: 768px) {
+  .tasks-grid {
+  grid-template-columns: 1fr;
+  }
+ 
+
+  h1 {
+  font-size: 2rem;
+  }
+  }
+ 
+
+  .theme-toggle-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px 15px;
+  background-color: rgba(0, 0, 0, 0.1);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
+  }
+ 
+
+  .dark-mode {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --header-bg-start: #333;
+  --header-bg-end: #555;
+  --header-text-color: #f9f9f9;
+  --container-bg: #212121;
+  --accent-color: #bb86fc;
+  --task-priority-high: #f44336;
+  --task-priority-medium: #ff9800;
+  --task-priority-low: #4caf50;
+  --progress-bg: #424242;
+  --progress-fill-start: #bb86fc;
+  --progress-fill-end: #9c27b0;
+  --progress-text-color: #f9f9f9;
+  --footer-text-color: #9e9e9e;
+  --box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+  }
+  </style>
+ </head>
+ <body>
+  <div class="container">
+  <header>
+  <h1>YouTube Clone - MERN Stack Project</h1>
+  <p>Capstone Project: Develop a YouTube Clone Using the MERN Stack (400 marks)</p>
+  <button class="theme-toggle-button">Theme Toggler</button>
+  </header>
+ 
+
+  <section class="project-overview">
+  <h2>Project Overview</h2>
+  <p>Create a full-stack YouTube clone where user/s can view and interact with videos. This project will help you understand how to build a real-world application using MongoDB, Express, React, and Node.js (MERN stack).</p>
+ 
+
+  <h3>Technologies</h3>
+  <div class="tech-stack">
+  <span class="tech-item">MongoDB</span>
+  <span class="tech-item">Express.js</span>
+  <span class="tech-item">React</span>
+  <span class="tech-item">Node.js</span>
+  <span class="tech-item">JWT Authentication</span>
+  <span class="tech-item">Axios</span>
+  <span class="tech-item">React Router</span>
+  </div>
+  </section>
+ 
+
+  <section class="progress-container">
+  <h2>Project Progress</h2>
+  <p>Overall completion status: <strong>10%</strong> (Initial planning and setup)</p>
+  <div class="progress-bar">
+  <div class="progress">10%</div>
+  </div>
+  <p>Current Phase: <strong>Project Setup and Initial Planning</strong></p>
+  </section>
+ 
+
+  <h2>Project Tasks Breakdown</h2>
+  <div class="tasks-grid">
+  <div class="task-card">
+  <span class="priority high">High Priority</span>
+  <h3>Project Setup</h3>
+  <ul>
+  <li>Initialize Git repository</li>
+  <li>Set up backend folder structure</li>
+  <li>Set up frontend React application</li>
+  <li>Install necessary dependencies</li>
+  </ul>
+  </div>
+ 
+
+  <div class="task-card">
+  <span class="priority high">High Priority</span>
+  <h3>Database Design</h3>
+  <ul>
+  <li>Design User schema</li>
+  <li>Design Video schema</li>
+  <li>Design Channel schema</li>
+  <li>Design Comment schema</li>
+  </ul>
+  </div>
+ 
+
+  <div class="task-card">
+  <span class="priority high">High Priority</span>
+  <h3>Backend API Development</h3>
+  <ul>
+  <li>Set up Express server</li>
+  <li>Create authentication routes</li>
+  <li>Create video management routes</li>
+  <li>Create comment routes</li>
+  </ul>
+  </div>
+ 
+
+  <div class="task-card">
+  <span class="priority medium">Medium Priority</span>
+  <h3>Frontend Development</h3>
+  <ul>
+  <li>Create React components structure</li>
+  <li>Implement routing with React Router</li>
+  <li>Set up state management</li>
+  <li>Create API service functions</li>
+  </ul>
+  </div>
+ 
+
+  <div class="task-card">
+  <span class="priority medium">Medium Priority</span>
+  <h3>User Authentication</h3>
+  <ul>
+  <li>Create registration form</li>
+  <li>Create login form</li>
+  <li>Implement JWT authentication</li>
+  <li>Create protected routes</li>
+  </ul>
+  </div>
+ 
+
+  <div class="task-card">
+  <span class="priority medium">Medium Priority</span>
+  <h3>Home Page Development</h3>
+  <ul>
+  <li>Create header component</li>
+  <li>Implement sidebar with toggle</li>
+  <li>Create video grid component</li>
+  <li>Add filter functionality</li>
+  </ul>
+  </div>
+  </div>
+ 
+
+  <section class="next-steps">
+  <h2>Next Steps - Task One</h2>
+  <p>For the first task, we need to focus on setting up the foundation of the project:</p>
+  <ul>
+  <li><strong>Initialize the project repository</strong> with a clear folder structure</li>
+  <li><strong>Set up the backend</strong> with Express.js and necessary middleware</li>
+  <li><strong>Set up the frontend</strong> with Create React App and necessary dependencies</li>
+  <li><strong>Design database schemas</strong> for Users, Videos, Channels, and Comments</li>
+  <li><strong>Create a basic Express server</strong> that connects to MongoDB</li>
+  </ul>
+  <p>This foundation will allow us to build all the required features systematically.</p>
+  </section>
+ 
+
+  <footer>
+  <p>YouTube Clone Project - MERN Stack Capstone | Internshala Trainings</p>
+  </footer>
+  </div>
+ 
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+  const progressBar = document.querySelector('.progress');
+  setTimeout(() => {
+  progressBar.style.width = '10%';
+  }, 500);
+ 
+
+  const themeToggle = document.querySelector('.theme-toggle-button');
+  themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  });
+  });
+  </script>
+ </body>
+ </html>

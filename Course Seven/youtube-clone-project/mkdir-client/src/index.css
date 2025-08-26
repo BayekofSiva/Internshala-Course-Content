@@ -1,0 +1,46 @@
+/* src/index.css */
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+/*
+  Theme variables
+  Primary teal colour, tertiary red accent and neutral backgrounds/text are defined
+  here.  Dark mode overrides these variables.  Components reference these
+  variables instead of hard‑coded colours to allow the theme toggler to work.
+*/
+:root {
+  --primary-color: #008080;
+  --primary-hover: #006666;
+  --tertiary-color: #e74c3c;
+  --background-color: #f9f9f9;
+  --header-bg: #ffffff;
+  --container-bg: #ffffff;
+  --text-color: #0f0f0f;
+  --subtext-color: #606060;
+  --border-color: #e5e5e5;
+  --button-bg: #f0f0f0;
+  --button-hover: #e5e5e5;
+}
+
+[data-theme='dark'] {
+  --background-color: #121212;
+  --header-bg: #1f1f1f;
+  --container-bg: #1e1e1e;
+  --text-color: #f5f5f5;
+  --subtext-color: #9e9e9e;
+  --border-color: #333333;
+  --button-bg: #2c2c2c;
+  --button-hover: #3a3a3a;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
