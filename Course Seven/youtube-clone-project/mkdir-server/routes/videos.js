@@ -32,6 +32,27 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  const { search = '', category = '', limit = 20, exclude = '', sort = 'date' } = req.query;
+
+  const q = {};
+  if (search) q.title = { $regex: search, $options: 'i' };
+  if (category) q.category = { $regex: `^${category}$`, $options: 'i' };
+
+  const excludeIds = exclude
+    ? exclude.split(',').map(s => s.trim()).filter(Boolean)
+    : [];
+
+  if (excludeIds.length) {
+    q._id = { $nin: excludeIds };
+  }
+
+  const sortSpec = sort === 'views' ? { views: -1 } : { createdAt: -1 };
+
+  const videos = await Video.find(q).sort(sortSpec).limit(Number(limit));
+  res.json({ videos });
+});
+
 // Get a single video by id
 router.get('/:id', async (req, res) => {
   try {
